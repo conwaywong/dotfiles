@@ -1,0 +1,55 @@
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alh'
+alias la='ls -Ah'
+alias lr='ls -Altrh'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+alias sus='sudo su -'
+
+## a quick way to get out of current directory ##
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+
+# update on one command
+alias update='sudo apt update && sudo apt upgrade -y'
+
+# which history
+alias h='history | head -n -1 | grep'
+
+alias mkdir='mkdir -pv'
+
+# screen commands
+alias sl='screen -list'
+alias sr='screen -R'
+
+# pushd/popd
+alias d='dirs -v'
+alias p='pushd'
+alias o='popd'
+alias p1='pushd +1 > /dev/null'
+alias p2='pushd +2 > /dev/null'
+alias p3='pushd +3 > /dev/null'
+alias p4='pushd +4 > /dev/null'
+
+if command -v bat &> /dev/null ; then alias cat='bat'; fi
+if command -v batcat &> /dev/null ; then alias cat='batcat'; fi
+if command -v bashtop &> /dev/null ; then alias top='bashtop'; fi
+if command -v fdfind &> /dev/null ; then alias fd='fdfind'; fi

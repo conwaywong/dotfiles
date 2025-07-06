@@ -1,0 +1,33 @@
+[diff]
+	tool = meld
+[difftool]
+	prompt = false
+[difftool "meld"]
+	cmd = meld "$LOCAL" "$REMOTE"
+
+[merge]
+	tool = meld
+[merge]
+	tool = meld
+[mergetool "meld"]
+	# Only use one of the following two commands!
+	# cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+	cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+[core]
+	# editor = atom --wait
+	editor = vim
+[user]
+	name = Conway Wong
+	email = 8732636+conwaywong@users.noreply.github.com
+[alias]
+	d = diff
+	dt = difftool
+
+	# http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/
+	co = checkout
+	dl = "!git ll -1"
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	st = status -bs
+[fetch]
+	prune = true
