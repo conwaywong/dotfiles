@@ -41,7 +41,7 @@ mkdir -p $HOME/.vim/backup/
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 chsh -s /bin/zsh
 
-stow -t $HOME --dotfiles fonts git tmux vim zsh
+stow -t $HOME --dotfiles fonts git podman tmux vim zsh
 
 fc-cache -fv # load user fonts from .local/share/cache
 
