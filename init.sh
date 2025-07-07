@@ -4,12 +4,12 @@ debian_packages () {
         sudo apt-get update
         sudo apt-get upgrade -y
         sudo apt-get install -y \
-            batcat \
+            bat \
             jid \
             jq \
             meld \
             podman \
-		    stow \
+            stow \
             tidy \
             tmux \
             vim \
