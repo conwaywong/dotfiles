@@ -1,6 +1,7 @@
 # Create SSH Key
 
-`ssh-keygen -t ed25519 -C "cwong@<host>"`
+`ssh-keygen -t ed25519 -C "$USER@$(hostname)-Ubuntu-$(cat /etc/os-release | awk -F'=' '/VERSION_ID/ {
+gsub(/"/, "", $2); print $2}')"`
 
 Add public key to [https://github.com/settings/keys](https://github.com/settings/keys)
 
