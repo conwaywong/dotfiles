@@ -4,14 +4,16 @@ debian_packages () {
         sudo apt-get update
         sudo apt-get upgrade -y
         sudo apt-get install -y \
-                jid \
-                jq \
-                meld \
-                podman \
-                tidy \
-                tmux \
-                vim \
-                zsh
+            batcat \
+            jid \
+            jq \
+            meld \
+            podman \
+		    stow \
+            tidy \
+            tmux \
+            vim \
+            zsh
 }
 
 if [ -f /etc/os-release ]; then
@@ -36,6 +38,11 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 mkdir -p $HOME/.vim/backup/
 
 # Install prezto and make zsh default shell
-zsh
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 chsh -s /bin/zsh
+
+stow -t $HOME --dotfiles fonts git tmux vim zsh
+
+fc-cache -fv # load user fonts from .local/share/cache
+
+zsh
