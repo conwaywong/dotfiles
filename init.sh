@@ -32,6 +32,13 @@ if [ -f /etc/os-release ]; then
         esac
 fi
 
+# Install miniconda
+pushd $HOME
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
+rm Miniconda3-latest-Linux-x86_64.sh
+popd
+
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
