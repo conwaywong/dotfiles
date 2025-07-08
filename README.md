@@ -1,12 +1,8 @@
 # Create SSH Key
 
 ```bash
-ssh-keygen -t ed25519 -C "$USER@$(hostname)-Ubuntu-$(cat /etc/os-release | awk -F'=' '/VERSION_ID/ {
-gsub(/"/, "", $2); print $2}')"
-cat ~/.ssh/id_ed25519.pub
+ssh-keygen -t ed25519 -C "$USER@$(hostname)-Ubuntu-$(cat /etc/os-release | awk -F'=' '/VERSION_ID/ {gsub(/"/, "", $2); print $2}')"
 ```
-
-Add public key to [https://github.com/settings/keys](https://github.com/settings/keys)
 
 # Clone dotfiles repo
 
@@ -14,7 +10,7 @@ Add public key to [https://github.com/settings/keys](https://github.com/settings
 
 # Run init script
 
-`init.sh`
+`cd dotfiles && ./init.sh`
 
 # Post install steps
 
