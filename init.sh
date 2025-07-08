@@ -41,7 +41,13 @@ mkdir -p $HOME/.vim/backup/
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 chsh -s /bin/zsh
 
-stow -t $HOME --dotfiles fonts git podman tmux vim zsh
+stow -t $HOME --dotfiles git tmux vim zsh
+
+mkdir -p $HOME/.config/containers
+stow -t $HOME/.config/containers podman
+
+mkdir -p $HOME/.local/share/fonts
+stow -t $HOME/.local/share/fonts fonts
 
 # install tmux package manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
