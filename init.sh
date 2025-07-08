@@ -43,6 +43,9 @@ chsh -s /bin/zsh
 
 stow -t $HOME --dotfiles fonts git podman tmux vim zsh
 
+# install tmux package manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 fc-cache -fv # load user fonts from .local/share/cache
 
 zsh
