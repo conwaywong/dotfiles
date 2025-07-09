@@ -52,7 +52,7 @@ mkdir -p $HOME/.vim/backup/
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 chsh -s /bin/zsh
 
-stow --no-folding -t $HOME --dotfiles fonts git nvim podman tmux vim zsh
+stow --no-folding -t $HOME fonts git nvim podman tmux vim zsh
 
 # install tmux package manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

@@ -2,8 +2,12 @@
 local global = vim.g
 local o = vim.opt
 
--- Editor options
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+global.mapleader = " "
+global.maplocalleader = "\\"
 
+-- Editor options
 o.number = true -- Print the line number in front of each line
 o.relativenumber = true -- Show the line number relative to the line with the cursor in front of each line.
 o.clipboard = "unnamedplus" -- uses the clipboard register for all operations except yank.
