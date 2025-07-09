@@ -1,14 +1,18 @@
 #!/bin/bash
 
 debian_packages () {
+        sudo add-apt-repository ppa:neovim-ppa/unstable -y # get latest neovim stable releases
         sudo apt-get update
         sudo apt-get upgrade -y
         sudo apt-get install -y \
             bat \
+            fd-find \
             jid \
             jq \
             meld \
+            neovim \
             podman \
+            ripgrep \
             stow \
             tidy \
             tmux \
@@ -48,13 +52,7 @@ mkdir -p $HOME/.vim/backup/
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 chsh -s /bin/zsh
 
-stow -t $HOME --dotfiles git tmux vim zsh
-
-mkdir -p $HOME/.config/containers
-stow -t $HOME/.config/containers podman
-
-mkdir -p $HOME/.local/share/fonts
-stow -t $HOME/.local/share/fonts fonts
+stow --no-folding -t $HOME --dotfiles fonts git nvim podman tmux vim zsh
 
 # install tmux package manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
