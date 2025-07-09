@@ -6,6 +6,7 @@ debian_packages () {
         sudo apt-get upgrade -y
         sudo apt-get install -y \
             bat \
+            build-essential \
             fd-find \
             jid \
             jq \
