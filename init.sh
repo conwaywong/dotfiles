@@ -12,11 +12,14 @@ debian_packages () {
             meld \
             npm \
             podman \
+            python3-venv \
             ripgrep \
             stow \
             tidy \
             tmux \
+            unzip \
             vim \
+            zip \
             zsh
 }
 
