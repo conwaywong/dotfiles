@@ -10,6 +10,7 @@ debian_packages () {
             jid \
             jq \
             meld \
+            npm \
             podman \
             ripgrep \
             stow \
@@ -68,3 +69,5 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fc-cache -fv # load user fonts from .local/share/cache
 
 zsh
+
+npm config set prefix ~/.local
