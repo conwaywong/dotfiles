@@ -1,7 +1,6 @@
 #!/bin/bash
 
 debian_packages () {
-        sudo add-apt-repository ppa:neovim-ppa/unstable -y # get latest neovim stable releases
         sudo apt-get update
         sudo apt-get upgrade -y
         sudo apt-get install -y \
@@ -11,7 +10,6 @@ debian_packages () {
             jid \
             jq \
             meld \
-            neovim \
             podman \
             ripgrep \
             stow \
@@ -37,11 +35,20 @@ if [ -f /etc/os-release ]; then
         esac
 fi
 
-# Install miniconda
+
 pushd $HOME
+
+# Install tagged version of neovim.
+wget https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+rm nvim-linux-x86_64.tar.gz 
+
+# Install miniconda
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
 rm Miniconda3-latest-Linux-x86_64.sh
+
 popd
 
 # Install vim-plug

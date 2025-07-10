@@ -1,7 +1,5 @@
 export JAVA_HOME=/opt/java/jdk-current
 
-export PATH="$HOME/.local/bin:$JAVA_HOME/bin:/opt/maven/current/bin:$PATH"
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('$HOME/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -16,3 +14,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+export PATH="$HOME/.local/bin:$JAVA_HOME/bin:/opt/maven/current/bin:$PATH"
