@@ -1,8 +1,10 @@
 return {
-    "sjl/badwolf",
-    lazy = false,
-    priority = 1000,
-    config = function()
-        vim.cmd("colorscheme badwolf")
-    end,
+  { "rebelot/kanagawa.nvim" },
+
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "tokyonight-night",
+    },
+  },
 }
