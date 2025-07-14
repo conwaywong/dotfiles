@@ -35,14 +35,12 @@ zstyle ':prezto:load' pmodule \
   'terminal' \
   'editor' \
   'history' \
-  'ssh' \
   'directory' \
+  'ssh' \
   'spectrum' \
   'utility' \
   'completion' \
-  'syntax-highlighting' \
   'history-substring-search' \
-  'ssh' \
   'prompt'
 
 #
@@ -113,6 +111,18 @@ zstyle ':prezto:module:editor' key-bindings 'emacs'
 # Set the search globbing flags.
 # zstyle ':prezto:module:history-substring-search' globbing-flags ''
 
+# Enable search case-sensitivity.
+# zstyle ':prezto:module:history-substring-search' case-sensitive 'yes'
+
+# Enable search for fuzzy matches.
+# zstyle ':prezto:module:history-substring-search' fuzzy 'yes'
+
+# Enable search uniqueness.
+# zstyle ':prezto:module:history-substring-search' unique 'yes'
+
+# Enable prefixed search.
+# zstyle ':prezto:module:history-substring-search' prefixed 'yes'
+
 #
 # macOS
 #
@@ -177,7 +187,7 @@ zstyle ':prezto:module:prompt' theme 'powerlevel10k'
 #
 
 # Set the SSH identities to load into the agent.
-zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_ed25519'
+zstyle ':prezto:module:ssh:load' identities 'id_ed25519'
 
 #
 # Syntax Highlighting
@@ -185,13 +195,13 @@ zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_ed25519'
 
 # Set syntax highlighters.
 # By default, only the main highlighter is enabled.
-zstyle ':prezto:module:syntax-highlighting' highlighters \
- 'main' \
- 'brackets' \
- 'pattern' \
- 'line' \
- 'cursor' \
- 'root'
+# zstyle ':prezto:module:syntax-highlighting' highlighters \
+#   'main' \
+#   'brackets' \
+#   'pattern' \
+#   'line' \
+#   'cursor' \
+#   'root'
 #
 # Set syntax highlighting styles.
 # zstyle ':prezto:module:syntax-highlighting' styles \
@@ -208,7 +218,7 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 #
 
 # Auto set the tab and window titles.
-zstyle ':prezto:module:terminal' auto-title 'yes'
+# zstyle ':prezto:module:terminal' auto-title 'yes'
 
 # Set the window title format.
 # zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
