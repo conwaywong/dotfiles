@@ -66,4 +66,9 @@ fc-cache -fv # load user fonts from .local/share/cache
 
 zsh
 
+# disable Windows PATH in WSL
+if [ -f /etc/wsl.conf ]; then
+        echo '\n[interop]\nappendWindowsPath = false' | sudo tee -a /etc/wsl.conf
+fi
+
 npm config set prefix ~/.local
