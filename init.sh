@@ -11,12 +11,15 @@ debian_packages() {
     jq \
     meld \
     npm \
+    perl \
     podman \
     python3-venv \
     ripgrep \
+    silversearcher-ag \
     stow \
     tidy \
     tmux \
+    universal-ctags \
     unzip \
     zip \
     zsh
@@ -38,6 +41,8 @@ if [ -f /etc/os-release ]; then
   esac
 fi
 
+mkdir -p $HOME/.local/bin
+
 pushd $HOME
 
 # Install tagged version of neovim.
@@ -50,6 +55,11 @@ rm nvim-linux-x86_64.tar.gz
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/.miniconda
 rm Miniconda3-latest-Linux-x86_64.sh
+
+# Install specific version of fzf
+wget https://github.com/junegunn/fzf/releases/download/v0.64.0/fzf-0.64.0-linux_amd64.tar.gz
+tar xf fzf-0.64.0-linux_amd64.tar.gz -C $HOME/.local/bin
+rm fzf-0.64.0-linux_amd64.tar.gz
 
 popd
 
@@ -68,7 +78,7 @@ zsh
 
 # disable Windows PATH in WSL
 if [ -f /etc/wsl.conf ]; then
-        echo "\n[interop]\nappendWindowsPath = false" | sudo tee -a /etc/wsl.conf
+  echo "\n[interop]\nappendWindowsPath = false" | sudo tee -a /etc/wsl.conf
 fi
 
 npm config set prefix ~/.local
