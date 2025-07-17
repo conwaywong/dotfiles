@@ -67,7 +67,7 @@ popd
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 chsh -s /bin/zsh
 
-stow --no-folding -t $HOME fonts git nvim podman tmux zsh
+stow --no-folding -t $HOME conda fonts git nvim podman tmux zsh
 
 # install tmux package manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
