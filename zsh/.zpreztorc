@@ -36,6 +36,7 @@ zstyle ':prezto:load' pmodule \
   'editor' \
   'history' \
   'directory' \
+  'syntax-highlighting' \
   'ssh' \
   'spectrum' \
   'utility' \
