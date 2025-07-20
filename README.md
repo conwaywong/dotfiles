@@ -4,8 +4,8 @@
 
 ```bash
 mkdir $HOME/dev; \
-  cd $HOME/dev; \ 
-  git clone https://github.com/conwaywong/dotfiles.git; \ 
+  cd $HOME/dev; \
+  git clone https://github.com/conwaywong/dotfiles.git; \
   cd dotfiles && ./init.sh
 ```
 
