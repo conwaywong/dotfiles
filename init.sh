@@ -61,6 +61,13 @@ wget https://github.com/junegunn/fzf/releases/download/v0.64.0/fzf-0.64.0-linux_
 tar xf fzf-0.64.0-linux_amd64.tar.gz -C $HOME/.local/bin
 rm fzf-0.64.0-linux_amd64.tar.gz
 
+# Instal lazygit
+LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+tar xf lazygit.tar.gz lazygit
+install lazygit -D -t $HOME/.local/bin
+rm -rf lazygit lazygit.tar.gz
+
 popd
 
 # Install prezto and make zsh default shell
