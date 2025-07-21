@@ -68,6 +68,9 @@ tar xf lazygit.tar.gz lazygit
 install lazygit -D -t $HOME/.local/bin
 rm -rf lazygit lazygit.tar.gz
 
+# Install zoxide
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+
 popd
 
 # Install prezto and make zsh default shell

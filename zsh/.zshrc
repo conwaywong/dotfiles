@@ -36,3 +36,5 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# install zoxide
+eval "$(zoxide init zsh)"
