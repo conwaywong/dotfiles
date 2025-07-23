@@ -1,9 +1,7 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc. 
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-[ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -33,5 +31,8 @@ else
 fi
 unset __conda_setup
 
-# install zoxide
+# init zoxide
 eval "$(zoxide init zsh)"
+
+# leave at end
+[ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
