@@ -57,6 +57,11 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/.miniconda
 rm Miniconda3-latest-Linux-x86_64.sh
 
+# Install Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
+
 # Install specific version of fzf
 wget https://github.com/junegunn/fzf/releases/download/v0.64.0/fzf-0.64.0-linux_amd64.tar.gz
 tar xf fzf-0.64.0-linux_amd64.tar.gz -C $HOME/.local/bin
@@ -87,9 +92,11 @@ fc-cache -fv # load user fonts from .local/share/cache
 
 zsh
 
-# disable Windows PATH in WSL
 if [ -f /etc/wsl.conf ]; then
-  echo -e "\n[interop]\nappendWindowsPath = false" | sudo tee -a /etc/wsl.conf
+  echo -e "\n[interop]\nappendWindowsPath = false" | sudo tee -a /etc/wsl.conf # disable windows path to make tab completion usable
+  cd $HOME/.local/bin
+  ln -s /mnt/c/WINDOWS/system32/cmd.exe cmd.exe # markdown preview needs path to cmd.exe
+  cd -
 fi
 
 npm config set prefix ~/.local
