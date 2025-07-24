@@ -21,6 +21,7 @@ debian_packages() {
     tmux \
     universal-ctags \
     unzip \
+    wl-clipboard \
     zip \
     zsh
 }
