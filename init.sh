@@ -90,8 +90,6 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 fc-cache -fv # load user fonts from .local/share/cache
 
-zsh
-
 if [ -f /etc/wsl.conf ]; then
   echo -e "\n[interop]\nappendWindowsPath = false" | sudo tee -a /etc/wsl.conf # disable windows path to make tab completion usable
   cd $HOME/.local/bin
@@ -100,3 +98,6 @@ if [ -f /etc/wsl.conf ]; then
 fi
 
 npm config set prefix ~/.local
+
+# finally, start new shell
+zsh
