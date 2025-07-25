@@ -11,7 +11,8 @@ mkdir $HOME/dev; \
 
 ## Post install steps
 
-* Install TPM plugins by running `Ctrl-s Shift-i`
+Extend environment-specific settings by creating a file `$HOME/.zshenv_ext` and
+adding to it.
 
 ## Create SSH Key
 

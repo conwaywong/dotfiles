@@ -22,6 +22,7 @@ debian_packages() {
     universal-ctags \
     unzip \
     wl-clipboard \
+    wslu \
     zip \
     zsh
 }
@@ -90,7 +91,9 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 fc-cache -fv # load user fonts from .local/share/cache
 
-if [ -f /etc/wsl.conf ]; then
+# WSL-specific configuration
+if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+  sudo touch /etc/wsl.conf
   echo -e "\n[interop]\nappendWindowsPath = false" | sudo tee -a /etc/wsl.conf # disable windows path to make tab completion usable
   cd $HOME/.local/bin
   ln -s /mnt/c/WINDOWS/system32/cmd.exe cmd.exe # markdown preview needs path to cmd.exe
