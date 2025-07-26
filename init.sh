@@ -1,18 +1,30 @@
 #!/bin/bash
 
 debian_packages() {
+
+  # Add Docker GPG key
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
+  # Add the repository to Apt sources:
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" |
+    sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+
   sudo apt-get update
   sudo apt-get upgrade -y
   sudo apt-get install -y \
     bat \
     build-essential \
+    docker \
+    docker-compose \
     fd-find \
     jid \
     jq \
     meld \
     npm \
     perl \
-    podman \
     python3-venv \
     ripgrep \
     silversearcher-ag \
@@ -25,6 +37,9 @@ debian_packages() {
     wslu \
     zip \
     zsh
+
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
 }
 
 if [ -f /etc/os-release ]; then
@@ -90,6 +105,9 @@ stow --no-folding -t $HOME conda fonts git nvim podman prettier tmux zsh
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 fc-cache -fv # load user fonts from .local/share/cache
+
+mkdir -p ~/.docker/completions
+docker completion zsh >~/.docker/completions/_docker
 
 # WSL-specific configuration
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then

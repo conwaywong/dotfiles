@@ -34,5 +34,10 @@ unset __conda_setup
 # init zoxide
 eval "$(zoxide init zsh)"
 
+# docker autocomplete
+FPATH="$HOME/.docker/completions:$FPATH"
+autoload -Uz compinit
+compinit
+
 # leave at end
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
