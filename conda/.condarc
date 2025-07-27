@@ -1,4 +1,8 @@
 channels:
   - conda-forge
   - defaults
-auto_activate_base: true
+
+# set the following in ~/miniconda/conda.rc to auto activate a specific env
+# auto_activate: true
+# default_activation_env: py3.10
+
