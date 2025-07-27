@@ -9,7 +9,7 @@ install_debian_packages() {
   sudo apt-get update
   sudo apt-get upgrade -y
   sudo apt-get install -y \
-    bashtop bat build-essential docker docker-compose fd-find ffmpeg jid jq meld npm perl python3-venv \
+    bashtop bat build-essential docker-ce docker-compose fd-find ffmpeg jid jq meld npm perl python3-venv \
     ripgrep silversearcher-ag stow tidy tmux universal-ctags unzip wl-clipboard wslu zip zsh
 
   sudo groupadd docker
