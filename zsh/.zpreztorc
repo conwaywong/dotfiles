@@ -39,7 +39,8 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'history-substring-search' \
   'prompt' \
-  'tmux'
+  'tmux' \
+  'conda-zsh-completion'
 
 #
 # Autosuggestions
@@ -251,3 +252,6 @@ zstyle ':prezto:module:tmux:auto-start' local 'yes'
 # before deleting or overwriting files. Set to 'no' to disable this safer
 # behavior.
 # zstyle ':prezto:module:utility' safe-ops 'yes'
+
+# activate completion cache
+zstyle ':completion::complete:*' use-cache 1

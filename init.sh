@@ -21,6 +21,7 @@ debian_packages() {
     docker \
     docker-compose \
     fd-find \
+    ffmpeg \
     jid \
     jq \
     meld \
@@ -98,6 +99,7 @@ popd
 
 # Install prezto and make zsh default shell
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+git clone https://github.com/conda/conda-zsh-completion.git "${ZDOTDIR:-$HOME}/.zpresto/contrib/conda-zsh-completion"
 chsh -s /bin/zsh
 
 stow --no-folding -t $HOME conda fonts git nvim podman prettier tmux zsh
