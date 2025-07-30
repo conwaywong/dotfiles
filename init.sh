@@ -9,8 +9,10 @@ install_debian_packages() {
   sudo apt-get update
   sudo apt-get upgrade -y
   sudo apt-get install -y \
-    bashtop bat build-essential docker-ce docker-compose fd-find ffmpeg jid jq meld npm perl python3-venv \
+    bat btop build-essential docker-ce docker-compose fd-find ffmpeg jid jq meld npm perl python3-venv \
     ripgrep silversearcher-ag stow tidy tmux universal-ctags unzip wl-clipboard wslu zip zsh
+
+  sudo apt autoremove --purge apport cups snapd unattended-upgrades wsl-pro-service
 
   sudo groupadd docker
   sudo usermod -aG docker $USER
@@ -104,6 +106,9 @@ fc-cache -fv # Load user fonts from .local/share/cache
 
 mkdir -p ~/.docker/completions
 docker completion zsh >~/.docker/completions/_docker
+
+# linger to support user-scoped systemd
+loginctl enable-linger $USER
 
 # WSL-specific configuration
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then

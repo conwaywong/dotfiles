@@ -39,8 +39,8 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'history-substring-search' \
   'prompt' \
-  'tmux' \
-  'conda-zsh-completion'
+  'conda-zsh-completion' \
+  'tmux'
 
 #
 # Autosuggestions
