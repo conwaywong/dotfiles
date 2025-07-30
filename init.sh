@@ -94,7 +94,7 @@ popd
 
 # Install Prezto and make Zsh the default shell
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-git clone https://github.com/conda/conda-zsh-completion.git "${ZDOTDIR:-$HOME}/.zprezto/contrib/conda-zsh-completion"
+git clone https://github.com/conda-incubator/conda-zsh-completion.git "${ZDOTDIR:-$HOME}/.zprezto/contrib/conda-zsh-completion"
 chsh -s /bin/zsh
 
 stow --no-folding -t $HOME conda fonts git nvim podman prettier tmux zsh
