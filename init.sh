@@ -12,7 +12,7 @@ install_debian_packages() {
     bat btop build-essential docker-ce docker-compose fd-find ffmpeg jid jq meld npm perl python3-venv \
     ripgrep silversearcher-ag stow tidy tmux universal-ctags unzip wl-clipboard wslu zip zsh
 
-  sudo apt autoremove --purge apport cups snapd unattended-upgrades wsl-pro-service
+  sudo apt autoremove -y --purge apport cups snapd unattended-upgrades wsl-pro-service
 
   sudo groupadd docker
   sudo usermod -aG docker $USER
