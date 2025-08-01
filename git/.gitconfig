@@ -4,9 +4,6 @@
 	prompt = false
 [difftool "meld"]
 	cmd = meld "$LOCAL" "$REMOTE"
-
-[merge]
-	tool = meld
 [merge]
 	tool = meld
 [mergetool "meld"]
@@ -31,3 +28,11 @@
 	st = status -bs
 [fetch]
 	prune = true
+[pull]
+    rebase = false  # merge (the default)
+    # or
+    # rebase = true  # rebase
+    # or
+    # ff = only      # fast-forward only
+[color]
+    ui = auto
