@@ -1,5 +1,9 @@
 #!/bin/bash
 
+nvidia_exists() {
+  [ -f "/mnt/c/Windows/System32/nvidia-smi.exe" ]
+}
+
 install_debian_packages() {
   sudo install -m 0755 -d /etc/apt/keyrings
   sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -16,6 +20,34 @@ install_debian_packages() {
 
   sudo groupadd docker
   sudo usermod -aG docker $USER
+
+  if nvidia-smi; then
+    # https://docs.nvidia.com/cuda/wsl-user-guide/index.html#getting-started-with-cuda-on-wsl
+    wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
+    sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
+    wget https://developer.download.nvidia.com/compute/cuda/12.9.1/local_installers/cuda-repo-wsl-ubuntu-12-9-local_12.9.1-1_amd64.deb
+    sudo dpkg -i cuda-repo-wsl-ubuntu-12-9-local_12.9.1-1_amd64.deb
+    sudo cp /var/cuda-repo-wsl-ubuntu-12-9-local/cuda-*-keyring.gpg /usr/share/keyrings/
+    sudo apt-get update
+    sudo apt-get -y install cuda-toolkit-12-9
+    rm -f cuda-repo-wsl-ubuntu-12-9-local_12.9.1-1_amd64.deb
+
+    # https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &&
+      curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list |
+      sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' |
+        sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    sudo apt-get update
+    export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1
+    sudo apt-get install -y \
+      nvidia-container-toolkit=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      nvidia-container-toolkit-base=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
+    sudo nvidia-ctk runtime configure --runtime=docker
+    sudo systemctl restart docker
+  fi
+
 }
 
 install_fedora_packages() {
@@ -31,6 +63,11 @@ install_fedora_packages() {
   sudo usermod -aG docker $USER
   sudo systemctl enable docker
   sudo systemctl start docker
+
+  if nvidia_exists; then
+    # TODO
+  fi
+
 }
 
 if [ -f /etc/os-release ]; then
