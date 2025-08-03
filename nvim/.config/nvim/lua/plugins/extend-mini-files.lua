@@ -25,9 +25,6 @@ return {
     },
   },
   opts = {
-    mappings = {
-      go_in = "<CR>",
-    },
     windows = {
       width_nofocus = 20,
       width_focus = 50,

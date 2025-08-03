@@ -104,6 +104,15 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 fc-cache -fv # Load user fonts from .local/share/cache
 
+# Load nerdfont symbols
+sudo wget -P /usr/share/fontconfig/conf.avail/ https://github.com/ryanoasis/nerd-fonts/raw/refs/heads/master/10-nerd-font-symbols.conf
+sudo ln -s /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf /etc/fonts/conf.d/10-nerd-font-symbols.conf
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/NerdFontsSymbolsOnly.zip
+sudo mkdir -p /usr/share/fonts/nerdfonts
+sudo unzip NerdFontsSymbolsOnly.zip -d /usr/share/fonts/nerdfonts/
+rm -f NerdFontsSymbolsOnly.zip
+sudo fc-cache -f -v
+
 mkdir -p ~/.docker/completions
 docker completion zsh >~/.docker/completions/_docker
 

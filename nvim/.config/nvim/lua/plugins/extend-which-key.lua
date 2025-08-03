@@ -10,9 +10,4 @@ return {
       desc = "Disable New Line Comment",
     })
   end,
-  opts = {
-    icons = {
-      mappings = false,
-    },
-  },
 }
