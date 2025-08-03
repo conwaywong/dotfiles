@@ -64,9 +64,9 @@ install_fedora_packages() {
   sudo systemctl enable docker
   sudo systemctl start docker
 
-  if nvidia_exists; then
+  #if nvidia_exists; then
     # TODO
-  fi
+  #fi
 
 }
 
