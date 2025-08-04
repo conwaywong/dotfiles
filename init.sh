@@ -19,7 +19,7 @@ install_debian_packages() {
   sudo apt autoremove -y --purge apport cups snapd unattended-upgrades wsl-pro-service
 
   sudo groupadd docker
-  sudo usermod -aG docker $USER
+  sudo usermod -aG docker "$USER"
 
   if nvidia-smi; then
     # https://docs.nvidia.com/cuda/wsl-user-guide/index.html#getting-started-with-cuda-on-wsl
@@ -60,12 +60,12 @@ install_fedora_packages() {
     ripgrep the_silver_searcher stow tidy tmux universal-ctags unzip xclip zip zsh
 
   sudo groupadd docker
-  sudo usermod -aG docker $USER
+  sudo usermod -aG docker "$USER"
   sudo systemctl enable docker
   sudo systemctl start docker
 
   #if nvidia_exists; then
-    # TODO
+  # TODO
   #fi
 
 }
@@ -86,9 +86,9 @@ if [ -f /etc/os-release ]; then
   esac
 fi
 
-mkdir -p $HOME/.local/bin
+mkdir -p "$HOME/.local/bin"
 
-pushd $HOME
+pushd "$HOME"
 
 # Install Neovim
 wget https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz
@@ -98,7 +98,7 @@ rm nvim-linux-x86_64.tar.gz
 
 # Install Miniconda
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/.miniconda
+bash Miniconda3-latest-Linux-x86_64.sh -b -p "$HOME/.miniconda"
 rm Miniconda3-latest-Linux-x86_64.sh
 
 # Install Google Chrome
@@ -114,14 +114,14 @@ fi
 
 # Install specific version of fzf
 wget https://github.com/junegunn/fzf/releases/download/v0.64.0/fzf-0.64.0-linux_amd64.tar.gz
-tar xf fzf-0.64.0-linux_amd64.tar.gz -C $HOME/.local/bin
+tar xf fzf-0.64.0-linux_amd64.tar.gz -C "$HOME/.local/bin"
 rm fzf-0.64.0-linux_amd64.tar.gz
 
 # Install Lazygit
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": *"v\K[^"]*')
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
-install lazygit -D -t $HOME/.local/bin
+install lazygit -D -t "$HOME/.local/bin"
 rm -rf lazygit lazygit.tar.gz
 
 # Install Zoxide
@@ -134,7 +134,7 @@ git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$H
 git clone https://github.com/conda-incubator/conda-zsh-completion.git "${ZDOTDIR:-$HOME}/.zprezto/contrib/conda-zsh-completion"
 chsh -s /bin/zsh
 
-stow --no-folding -t $HOME conda fonts git nvim podman prettier tmux zsh
+stow --no-folding -t "$HOME" conda fonts git nvim podman prettier tmux zsh
 
 # Install Tmux Plugin Manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -154,13 +154,13 @@ mkdir -p ~/.docker/completions
 docker completion zsh >~/.docker/completions/_docker
 
 # linger to support user-scoped systemd
-loginctl enable-linger $USER
+loginctl enable-linger "$USER"
 
 # WSL-specific configuration
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
   sudo touch /etc/wsl.conf
   echo -e "\n[interop]\nappendWindowsPath = false" | sudo tee -a /etc/wsl.conf
-  cd $HOME/.local/bin
+  cd "$HOME/.local/bin"
   ln -s /mnt/c/WINDOWS/system32/cmd.exe cmd.exe
   cd -
 fi
