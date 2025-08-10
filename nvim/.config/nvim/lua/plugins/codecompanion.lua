@@ -4,6 +4,10 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
+  -- only load plugin if the SAIC API token exists
+  cond = function()
+    return vim.fn.filereadable(vim.fn.expand("$HOME/.config/saic/ai_token"))
+  end,
   opts = {
     adapters = {
       saic = function()
