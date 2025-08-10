@@ -14,8 +14,10 @@ return {
       opts = {
         show_defaults = false, -- only display defined adapters
       },
-      saic = function()
+      tenjin = function()
         return require("codecompanion.adapters").extend("openai_compatible", {
+          name = "tenjin",
+          formatted_name = "Tenjin",
           env = {
             url = "https://ai-api.sif.saicdevops.com",
             api_key = "cmd:/usr/bin/cat $HOME/.config/saic/ai_token",
@@ -30,7 +32,7 @@ return {
     },
     strategies = {
       chat = {
-        adapter = "saic",
+        adapter = "tenjin",
         keymaps = {
           options = {
             modes = { n = "?" },
@@ -43,10 +45,10 @@ return {
         },
       },
       inline = {
-        adapter = "saic",
+        adapter = "tenjin",
       },
       cmd = {
-        adapter = "saic",
+        adapter = "tenjin",
       },
     },
     opts = {
