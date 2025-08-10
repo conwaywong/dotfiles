@@ -10,6 +10,9 @@ return {
   end,
   opts = {
     adapters = {
+      opts = {
+        show_defaults = false, -- only display defined adapters
+      },
       saic = function()
         return require("codecompanion.adapters").extend("openai_compatible", {
           env = {
@@ -26,6 +29,22 @@ return {
     },
     strategies = {
       chat = {
+        adapter = "saic",
+        keymaps = {
+          options = {
+            modes = { n = "?" },
+            callback = function()
+              require("which-key").show({ global = false })
+            end,
+            description = "Codecompanion Keymaps",
+            hide = true,
+          },
+        },
+      },
+      inline = {
+        adapter = "saic",
+      },
+      cmd = {
         adapter = "saic",
       },
     },
