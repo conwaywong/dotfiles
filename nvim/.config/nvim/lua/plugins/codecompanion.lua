@@ -34,6 +34,9 @@ return {
       chat = {
         adapter = "tenjin",
         keymaps = {
+          close = {
+            modes = { n = "<C-c>", i = {} }, --disable <C-c> in insert mode
+          },
           options = {
             modes = { n = "?" },
             callback = function()
@@ -52,8 +55,12 @@ return {
       },
     },
     opts = {
+      require("which-key").add({ "<leader>a", group = "ai" }), --only add which-key group if this plugin is loaded
       log_level = "DEBUG",
     },
+  },
+  keys = {
+    { "<leader>at", "<cmd>CodeCompanionChat Toggle<cr>", desc = "CodeCompanionChat Toggle" },
   },
   init = function()
     require("plugins.codecompanion.fidget-spinner"):init()
