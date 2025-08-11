@@ -4,6 +4,10 @@ return {
     "j-hui/fidget.nvim",
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      ft = { "markdown", "codecompanion" },
+    },
   },
   -- only load plugin if the SAIC API token exists
   cond = function()
@@ -35,7 +39,11 @@ return {
         adapter = "tenjin",
         keymaps = {
           close = {
-            modes = { n = "<C-c>", i = {} }, --disable <C-c> in insert mode
+            modes = { n = { "<C-c>", "<esc>" }, i = {} }, --disable <C-c> in insert mode
+            callback = function() --https://github.com/olimorris/codecompanion.nvim/discussions/139#discussioncomment-10577399
+              require("codecompanion").toggle()
+            end,
+            description = "Toggle Chat",
           },
           options = {
             modes = { n = "?" },
@@ -60,7 +68,9 @@ return {
     },
   },
   keys = {
-    { "<leader>at", "<cmd>CodeCompanionChat Toggle<cr>", desc = "CodeCompanionChat Toggle" },
+    { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle (AI Chat)", mode = { "n", "v" } },
+    { "<leader>ao", "<cmd>CodeCompanionActions<cr>", desc = "Actions (AI Chat)", mode = { "n", "v" } },
+    { "<leader>av", "<cmd>CodeCompanionChat Add<cr>", desc = "Add (AI Chat)", mode = { "v" } },
   },
   init = function()
     require("plugins.codecompanion.fidget-spinner"):init()
