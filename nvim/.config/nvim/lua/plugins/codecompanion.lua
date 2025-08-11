@@ -20,8 +20,8 @@ return {
     },
   },
   -- only load plugin if the SAIC API token exists
-  cond = function()
-    return vim.fn.filereadable(vim.fn.expand("$HOME/.config/saic/ai_token"))
+  enabled = function()
+    return vim.fn.filereadable(vim.fn.expand("~/.config/saic/ai_token")) == 1
   end,
   opts = {
     adapters = {
