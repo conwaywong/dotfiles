@@ -8,6 +8,16 @@ return {
       "MeanderingProgrammer/render-markdown.nvim",
       ft = { "markdown", "codecompanion" },
     },
+    {
+      "echasnovski/mini.diff",
+      config = function()
+        local diff = require("mini.diff")
+        diff.setup({
+          -- Disabled by default
+          source = diff.gen_source.none(),
+        })
+      end,
+    },
   },
   -- only load plugin if the SAIC API token exists
   cond = function()
