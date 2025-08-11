@@ -28,13 +28,17 @@ return {
       opts = {
         show_defaults = false, -- only display defined adapters
       },
-      tenjin = function()
+      saicgpt = function()
         return require("codecompanion.adapters").extend("openai_compatible", {
-          name = "tenjin",
-          formatted_name = "Tenjin",
+          name = "saicgpt",
+          formatted_name = "SAICGPT",
           env = {
             url = "https://ai-api.sif.saicdevops.com",
             api_key = "cmd:/usr/bin/cat $HOME/.config/saic/ai_token",
+          },
+          raw = {
+            "--connect-timeout",
+            "20",
           },
           schema = {
             model = {
@@ -46,7 +50,7 @@ return {
     },
     strategies = {
       chat = {
-        adapter = "tenjin",
+        adapter = "saicgpt",
         keymaps = {
           close = {
             modes = { n = { "<C-c>", "<esc>" }, i = {} }, --disable <C-c> in insert mode
@@ -66,10 +70,10 @@ return {
         },
       },
       inline = {
-        adapter = "tenjin",
+        adapter = "saicgpt",
       },
       cmd = {
-        adapter = "tenjin",
+        adapter = "saicgpt",
       },
     },
     opts = {
