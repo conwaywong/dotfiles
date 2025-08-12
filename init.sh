@@ -21,7 +21,7 @@ install_debian_packages() {
   sudo groupadd docker
   sudo usermod -aG docker "$USER"
 
-  if nvidia-smi; then
+  if nvidia_exists; then
     # https://docs.nvidia.com/cuda/wsl-user-guide/index.html#getting-started-with-cuda-on-wsl
     wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
     sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
