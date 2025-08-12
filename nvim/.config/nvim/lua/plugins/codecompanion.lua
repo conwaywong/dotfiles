@@ -3,10 +3,19 @@ return {
   dependencies = {
     "j-hui/fidget.nvim",
     "nvim-lua/plenary.nvim",
-    "nvim-treesitter/nvim-treesitter",
     {
-      "MeanderingProgrammer/render-markdown.nvim",
-      ft = { "markdown", "codecompanion" },
+      "nvim-treesitter/nvim-treesitter",
+      lazy = false,
+      dependencies = { --https://github.com/OXY2DEV/markview.nvim?tab=readme-ov-file#-installation
+        "OXY2DEV/markview.nvim",
+        lazy = false,
+        opts = {
+          preview = {
+            filetypes = { "markdown", "codecompanion" },
+            ignore_buftypes = {},
+          },
+        },
+      },
     },
     {
       "echasnovski/mini.diff",
@@ -27,6 +36,7 @@ return {
     adapters = {
       opts = {
         show_defaults = false, -- only display defined adapters
+        show_model_choices = true,
       },
       saicgpt = function()
         return require("codecompanion.adapters").extend("openai_compatible", {
@@ -42,7 +52,7 @@ return {
           },
           schema = {
             model = {
-              default = "bedrock-claude-v3-7-sonnet",
+              default = "bedrock-claude-4-sonnet",
             },
           },
         })

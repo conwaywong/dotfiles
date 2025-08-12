@@ -51,22 +51,42 @@ install_debian_packages() {
 }
 
 install_fedora_packages() {
+
   sudo dnf -y install dnf-plugins-core
   sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
   sudo dnf update -y
   sudo dnf install -y \
-    bashtop bat @development-tools docker-ce docker-compose fd-find ffmpeg jq meld npm perl python3-virtualenv \
-    ripgrep the_silver_searcher stow tidy tmux universal-ctags unzip xclip zip zsh
+    bashtop bat @development-tools docker-ce docker-compose fd-find ffmpeg google-perftools jq meld npm perl python3-virtualenv \
+    ripgrep the_silver_searcher stow tidy tldr tmux universal-ctags unzip wl-clipboard wslu zip zsh
+
+  sudo dnf remove -y --noautoremove snapd unattended-upgrades
 
   sudo groupadd docker
   sudo usermod -aG docker "$USER"
   sudo systemctl enable docker
   sudo systemctl start docker
 
-  #if nvidia_exists; then
-  # TODO
-  #fi
+  if nvidia_exists; then
+    # https://docs.nvidia.com/cuda/wsl-user-guide/index.html#getting-started-with-cuda-on-wsl
+    wget https://developer.download.nvidia.com/compute/cuda/repos/fedora37/x86_64/cuda-fedora37.repo
+    sudo mv cuda-fedora37.repo /etc/yum.repos.d/
+    sudo dnf clean all
+    sudo dnf module install -y nvidia-driver:latest-dkms
+    sudo dnf install -y cuda-toolkit-12-9
+
+    # https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+    curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo |
+      sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+    export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1
+    sudo dnf install -y \
+      nvidia-container-toolkit-${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      nvidia-container-toolkit-base-${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      libnvidia-container-tools-${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      libnvidia-container1-${NVIDIA_CONTAINER_TOOLKIT_VERSION}
+    sudo nvidia-ctk runtime configure --runtime=docker
+    sudo systemctl restart docker
+  fi
 
 }
 
