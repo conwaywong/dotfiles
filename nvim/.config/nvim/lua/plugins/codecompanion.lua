@@ -4,20 +4,6 @@ return {
     "j-hui/fidget.nvim",
     "nvim-lua/plenary.nvim",
     {
-      "nvim-treesitter/nvim-treesitter",
-      lazy = false,
-      dependencies = { --https://github.com/OXY2DEV/markview.nvim?tab=readme-ov-file#-installation
-        "OXY2DEV/markview.nvim",
-        lazy = false,
-        opts = {
-          preview = {
-            filetypes = { "markdown", "codecompanion" },
-            ignore_buftypes = {},
-          },
-        },
-      },
-    },
-    {
       "echasnovski/mini.diff",
       config = function()
         local diff = require("mini.diff")
