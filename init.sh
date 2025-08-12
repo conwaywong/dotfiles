@@ -13,7 +13,7 @@ install_debian_packages() {
   sudo apt-get update
   sudo apt-get upgrade -y
   sudo apt-get install -y \
-    bat btop build-essential cowsay docker-ce docker-compose fd-find ffmpeg fortune google-perftools jid jq meld npm perl python3-venv \
+    bat btop build-essential docker-ce docker-compose fd-find ffmpeg google-perftools jid jq meld npm perl python3-venv \
     ripgrep silversearcher-ag stow tidy tldr tmux universal-ctags unzip wl-clipboard wslu zip zsh
 
   sudo apt autoremove -y --purge apport cups snapd unattended-upgrades wsl-pro-service
