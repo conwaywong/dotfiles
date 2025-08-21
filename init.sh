@@ -179,7 +179,11 @@ loginctl enable-linger "$USER"
 # WSL-specific configuration
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
   sudo touch /etc/wsl.conf
-  echo -e "\n[interop]\nappendWindowsPath = false" | sudo tee -a /etc/wsl.conf
+  echo -e "\n[interop]\nappendWindowsPath = false\n" | sudo tee -a /etc/wsl.conf
+  echo -e "\n[network]\ngenerateResolvConf = false\n" | sudo tee -a /etc/wsl.conf
+  sudo unlink /etc/resolv.conf
+  echo -e "nameserver       8.8.8.8" | sudo tee /etc/resolv.conf
+  sudo chattr +i /etc/resolv.conf
   cd "$HOME/.local/bin"
   ln -s /mnt/c/WINDOWS/system32/cmd.exe cmd.exe
   cd -
