@@ -65,6 +65,10 @@ install_docker_debian() {
     
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] ${REPO_URL} $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
         sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+    
+    sudo apt-get update
+
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
 install_nvidia_debian() {
@@ -117,7 +121,7 @@ install_ubuntu_packages() {
     
     # Install essential development packages
     sudo apt-get install -y \
-        bat btop build-essential docker-ce docker-compose fd-find ffmpeg \
+        bat btop build-essential fd-find ffmpeg \
         google-perftools jid jq meld npm perl python3-venv ripgrep \
         silversearcher-ag stow tidy tldr tmux universal-ctags unzip \
         wl-clipboard zip zsh
@@ -145,9 +149,9 @@ install_debian_packages() {
     
     # Install essential development packages
     sudo apt-get install -y \
-        bat btop build-essential docker-ce docker-compose fd-find ffmpeg \
+        bat btop build-essential fd-find ffmpeg \
         google-perftools jid jq meld npm perl python3-venv ripgrep \
-        silversearcher-ag stow tidy tldr-hs tmux universal-ctags unzip \
+        silversearcher-ag stow tidy tldr-py tmux universal-ctags unzip \
         wl-clipboard zip zsh
     
     # Configure Docker group
@@ -164,7 +168,8 @@ install_docker_fedora() {
     log "Installing Docker for Fedora..."
     
     sudo dnf install -y dnf-plugins-core
-    sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+    sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+    sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
 install_nvidia_fedora() {
@@ -200,17 +205,17 @@ install_nvidia_container_toolkit_fedora() {
 install_fedora_packages() {
     log "Installing packages for Fedora..."
     
+    # Install essential development packages
+    sudo dnf install -y \
+        bashtop bat @development-tools fd-find ffmpeg \
+        google-perftools jq meld npm perl python3-virtualenv ripgrep \
+        the_silver_searcher stow tidy tldr tmux universal-ctags unzip \
+        wl-clipboard zip zsh
+    
     install_docker_fedora
     
     sudo dnf update -y
-    
-    # Install essential development packages
-    sudo dnf install -y \
-        bashtop bat @development-tools docker-ce docker-compose fd-find ffmpeg \
-        google-perftools jq meld npm perl python3-virtualenv ripgrep \
-        the_silver_searcher stow tidy tldr tmux universal-ctags unzip \
-        wl-clipboard wslu zip zsh
-    
+
     # Remove unwanted packages
     sudo dnf remove -y --noautoremove snapd unattended-upgrades || true
     
