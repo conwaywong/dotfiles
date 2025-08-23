@@ -74,6 +74,10 @@ install_docker_debian() {
   sudo apt-get update
 
   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # Configure Docker group
+  sudo groupadd docker 2>/dev/null || true # Don't fail if group exists
+  sudo usermod -aG docker "$USER"
 }
 
 install_nvidia_ubuntu() {
@@ -112,8 +116,6 @@ install_nvidia_container_toolkit_debian() {
 install_ubuntu_packages() {
   log "Installing packages for Ubuntu..."
 
-  install_docker_debian
-
   sudo apt-get update
   sudo apt-get upgrade -y
 
@@ -127,9 +129,7 @@ install_ubuntu_packages() {
   # Remove unwanted packages
   sudo apt autoremove -y --purge apport cups snapd unattended-upgrades wsl-pro-service || true
 
-  # Configure Docker group
-  sudo groupadd docker 2>/dev/null || true # Don't fail if group exists
-  sudo usermod -aG docker "$USER"
+  install_docker_debian
 
   # Install NVIDIA support if available
   if nvidia_exists; then
@@ -152,10 +152,6 @@ install_debian_packages() {
 
   install_docker_debian
 
-  # Configure Docker group
-  sudo groupadd docker 2>/dev/null || true # Don't fail if group exists
-  sudo usermod -aG docker "$USER"
-
   # Install NVIDIA support if available
   if nvidia_exists; then
     install_nvidia_ubuntu # For now. use Ubuntu and Debian use the same WSL CUDA packages
@@ -165,19 +161,24 @@ install_debian_packages() {
 install_docker_fedora() {
   log "Installing Docker for Fedora..."
 
-  sudo dnf install -y dnf-plugins-core
-  sudo dnf-3 config-manager -y --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-  sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-  sudo systemctl enable --now docker
+  sudo dnf -y install dnf-plugins-core
+  sudo dnf-3 -y config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+  sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # Configure Docker
+  sudo groupadd docker 2>/dev/null || true
+  sudo usermod -aG docker "$USER"
+  sudo systemctl enable docker
+  sudo systemctl start docker
 }
 
 install_nvidia_fedora() {
   log "Installing NVIDIA CUDA toolkit for Fedora..."
 
   # Install CUDA toolkit
-  sudo dnf config-manager addrepo --from-repofile https://developer.download.nvidia.com/compute/cuda/repos/fedora42/x86_64/cuda-fedora42.repo
+  sudo dnf -y config-manager addrepo --from-repofile https://developer.download.nvidia.com/compute/cuda/repos/fedora42/x86_64/cuda-fedora42.repo
   sudo dnf clean all
-  sudo dnf -y install cuda-toolkit-13-0
+  sudo dnf -y install cuda-toolkit-13-0 nvtop
 
   # Install NVIDIA Container Toolkit
   install_nvidia_container_toolkit_fedora
@@ -202,6 +203,8 @@ install_nvidia_container_toolkit_fedora() {
 install_fedora_packages() {
   log "Installing packages for Fedora..."
 
+  sudo dnf update -y
+
   # Install essential development packages
   sudo dnf install -y \
     bat btop ctags @development-tools fd-find ffmpeg \
@@ -211,16 +214,8 @@ install_fedora_packages() {
 
   install_docker_fedora
 
-  sudo dnf update -y
-
   # Remove unwanted packages
   sudo dnf remove -y --noautoremove snapd unattended-upgrades || true
-
-  # Configure Docker
-  sudo groupadd docker 2>/dev/null || true
-  sudo usermod -aG docker "$USER"
-  sudo systemctl enable docker
-  sudo systemctl start docker
 
   # Install NVIDIA support if available
   if nvidia_exists; then
