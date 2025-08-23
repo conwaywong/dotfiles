@@ -166,7 +166,7 @@ install_docker_fedora() {
   log "Installing Docker for Fedora..."
 
   sudo dnf install -y dnf-plugins-core
-  sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+  sudo dnf config-manager -y --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
   sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
@@ -174,11 +174,9 @@ install_nvidia_fedora() {
   log "Installing NVIDIA CUDA toolkit for Fedora..."
 
   # Install CUDA toolkit
-  wget https://developer.download.nvidia.com/compute/cuda/repos/fedora37/x86_64/cuda-fedora37.repo
-  sudo mv cuda-fedora37.repo /etc/yum.repos.d/
+  sudo dnf config-manager addrepo --from-repofile https://developer.download.nvidia.com/compute/cuda/repos/fedora42/x86_64/cuda-fedora42.repo
   sudo dnf clean all
-  sudo dnf module install -y nvidia-driver:latest-dkms
-  sudo dnf install -y cuda-toolkit-12-9
+  sudo dnf -y install cuda-toolkit-13-0
 
   # Install NVIDIA Container Toolkit
   install_nvidia_container_toolkit_fedora
@@ -205,9 +203,9 @@ install_fedora_packages() {
 
   # Install essential development packages
   sudo dnf install -y \
-    bashtop bat @development-tools fd-find ffmpeg \
+    bat btop ctags @development-tools fd-find ffmpeg \
     google-perftools jq meld npm perl python3-virtualenv ripgrep \
-    the_silver_searcher stow tidy tldr tmux universal-ctags unzip \
+    the_silver_searcher stow tidy tldr tmux unzip \
     wl-clipboard zip zsh
 
   install_docker_fedora
