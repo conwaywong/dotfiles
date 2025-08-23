@@ -207,8 +207,8 @@ install_fedora_packages() {
 
   # Install essential development packages
   sudo dnf install -y \
-    bat btop ctags @development-tools fd-find ffmpeg \
-    google-perftools jq meld npm perl python3-virtualenv ripgrep \
+    bat btop ctags @development-tools fd-find ffmpeg google-perftools hostname \
+    jq meld npm perl python3-virtualenv ripgrep \
     the_silver_searcher stow tidy tldr tmux unzip \
     wl-clipboard zip zsh
 
