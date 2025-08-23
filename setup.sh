@@ -68,10 +68,10 @@ install_docker_debian() {
     
     sudo apt-get update
 
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
-install_nvidia_debian() {
+install_nvidia_ubuntu() {
     log "Installing NVIDIA CUDA toolkit for Debian/Ubuntu..."
     
     # Install CUDA toolkit
@@ -135,32 +135,32 @@ install_ubuntu_packages() {
     
     # Install NVIDIA support if available
     if nvidia_exists; then
-        install_nvidia_debian
+        install_nvidia_ubuntu
     fi
 }
 
 install_debian_packages() {
     log "Installing packages for Debian..."
     
-    install_docker_debian
-
     sudo apt-get update
     sudo apt-get upgrade -y
     
     # Install essential development packages
     sudo apt-get install -y \
         bat btop build-essential fd-find ffmpeg \
-        google-perftools jid jq meld npm perl python3-venv ripgrep \
+        google-perftools gpg jid jq meld npm perl python3-venv ripgrep \
         silversearcher-ag stow tidy tldr-py tmux universal-ctags unzip \
         wl-clipboard zip zsh
     
+    install_docker_debian
+
     # Configure Docker group
     sudo groupadd docker 2>/dev/null || true  # Don't fail if group exists
     sudo usermod -aG docker "$USER"
     
     # Install NVIDIA support if available
     if nvidia_exists; then
-        install_nvidia_debian
+        install_nvidia_ubuntu # For now. use Ubuntu and Debian use the same WSL CUDA packages
     fi
 }
 
