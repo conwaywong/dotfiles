@@ -6,7 +6,7 @@
 mkdir $HOME/dev; \
   cd $HOME/dev; \
   git clone https://github.com/conwaywong/dotfiles.git; \
-  cd dotfiles && ./setup..sh
+  cd dotfiles && ./setup.sh
 ```
 
 ## Post install steps
