@@ -120,7 +120,7 @@ install_ubuntu_packages() {
         bat btop build-essential docker-ce docker-compose fd-find ffmpeg \
         google-perftools jid jq meld npm perl python3-venv ripgrep \
         silversearcher-ag stow tidy tldr tmux universal-ctags unzip \
-        wl-clipboard wslu zip zsh
+        wl-clipboard zip zsh
     
     # Remove unwanted packages
     sudo apt autoremove -y --purge apport cups snapd unattended-upgrades wsl-pro-service || true
@@ -140,12 +140,6 @@ install_debian_packages() {
     
     install_docker_debian
 
-    # from: https://wslu.wedotstud.io/wslu/install.html#debian
-    sudo apt install gnupg2 apt-transport-https
-    wget -O - https://pkg.wslutiliti.es/public.key | sudo gpg -o /usr/share/keyrings/wslu-archive-keyring.pgp --dearmor
-    echo "deb [signed-by=/usr/share/keyrings/wslu-archive-keyring.pgp] https://pkg.wslutiliti.es/debian \
-    $(. /etc/os-release && echo "$VERSION_CODENAME") main" | sudo tee /etc/apt/sources.list.d/wslu.list
-    
     sudo apt-get update
     sudo apt-get upgrade -y
     
@@ -154,7 +148,7 @@ install_debian_packages() {
         bat btop build-essential docker-ce docker-compose fd-find ffmpeg \
         google-perftools jid jq meld npm perl python3-venv ripgrep \
         silversearcher-ag stow tidy tldr-hs tmux universal-ctags unzip \
-        wl-clipboard wslu zip zsh
+        wl-clipboard zip zsh
     
     # Configure Docker group
     sudo groupadd docker 2>/dev/null || true  # Don't fail if group exists
@@ -394,6 +388,9 @@ setup_wsl_config() {
     if [ ! -f "$HOME/.local/bin/cmd.exe" ]; then
         ln -s /mnt/c/WINDOWS/system32/cmd.exe "$HOME/.local/bin/cmd.exe"
     fi
+
+    # TODO: Set BROWSER env variable (https://superuser.com/a/1266038)
+    # export BROWSER='/mnt/c/Program Files/Firefox/firefox.exe'
 }
 
 setup_npm() {
