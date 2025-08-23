@@ -50,10 +50,20 @@ install_docker_debian() {
     
     # Add Docker's official GPG key and repository
     sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    
+    # Determine the correct repository URL based on distribution
+    if grep -q "ubuntu" /etc/os-release; then
+        REPO_URL="https://download.docker.com/linux/ubuntu"
+        log "Detected Ubuntu - using Ubuntu repository"
+    else
+        REPO_URL="https://download.docker.com/linux/debian"
+        log "Detected Debian - using Debian repository"
+    fi
+    
+    sudo curl -fsSL ${REPO_URL}/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
     
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] ${REPO_URL} $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
         sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 }
 
