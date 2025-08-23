@@ -107,8 +107,8 @@ install_nvidia_container_toolkit_debian() {
     sudo systemctl restart docker
 }
 
-install_debian_packages() {
-    log "Installing packages for Debian/Ubuntu..."
+install_ubuntu_packages() {
+    log "Installing packages for Ubuntu..."
     
     install_docker_debian
     
@@ -124,6 +124,37 @@ install_debian_packages() {
     
     # Remove unwanted packages
     sudo apt autoremove -y --purge apport cups snapd unattended-upgrades wsl-pro-service || true
+    
+    # Configure Docker group
+    sudo groupadd docker 2>/dev/null || true  # Don't fail if group exists
+    sudo usermod -aG docker "$USER"
+    
+    # Install NVIDIA support if available
+    if nvidia_exists; then
+        install_nvidia_debian
+    fi
+}
+
+install_debian_packages() {
+    log "Installing packages for Debian..."
+    
+    install_docker_debian
+
+    # from: https://wslu.wedotstud.io/wslu/install.html#debian
+    sudo apt install gnupg2 apt-transport-https
+    wget -O - https://pkg.wslutiliti.es/public.key | sudo gpg -o /usr/share/keyrings/wslu-archive-keyring.pgp --dearmor
+    echo "deb [signed-by=/usr/share/keyrings/wslu-archive-keyring.pgp] https://pkg.wslutiliti.es/debian \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") main" | sudo tee /etc/apt/sources.list.d/wslu.list
+    
+    sudo apt-get update
+    sudo apt-get upgrade -y
+    
+    # Install essential development packages
+    sudo apt-get install -y \
+        bat btop build-essential docker-ce docker-compose fd-find ffmpeg \
+        google-perftools jid jq meld npm perl python3-venv ripgrep \
+        silversearcher-ag stow tidy tldr-hs tmux universal-ctags unzip \
+        wl-clipboard wslu zip zsh
     
     # Configure Docker group
     sudo groupadd docker 2>/dev/null || true  # Don't fail if group exists
@@ -382,8 +413,11 @@ main() {
         # shellcheck source=/dev/null
         . /etc/os-release
         case "$ID" in
-            "debian"|"ubuntu")
+            "debian")
                 install_debian_packages
+                ;;
+            "ubuntu")
+                install_ubuntu_packages
                 ;;
             "fedora")
                 install_fedora_packages
