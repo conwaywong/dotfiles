@@ -10,7 +10,6 @@ set -euo pipefail # Exit on error, undefined vars, pipe failures
 # Configuration Variables
 # =============================================================================
 
-readonly CUDA_VERSION="13.0.0"
 readonly NVIDIA_TOOLKIT_VERSION="1.17.8-1"
 readonly NEOVIM_VERSION="v0.11.1"
 readonly FZF_VERSION="v0.64.0"
@@ -73,18 +72,11 @@ install_docker_debian() {
 
 install_nvidia_ubuntu() {
   log "Installing NVIDIA CUDA toolkit for Debian/Ubuntu..."
-
-  # Install CUDA toolkit
-  wget "https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin"
-  sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
-
-  local cuda_deb="cuda-repo-wsl-ubuntu-13-0-local_${CUDA_VERSION}-1_amd64.deb"
-  wget "https://developer.download.nvidia.com/compute/cuda/${CUDA_VERSION}/local_installers/${cuda_deb}"
-  sudo dpkg -i "${cuda_deb}"
-  sudo cp /var/cuda-repo-wsl-ubuntu-13-0-local/cuda-*-keyring.gpg /usr/share/keyrings/
+  wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-keyring_1.1-1_all.deb
+  sudo dpkg -i cuda-keyring_1.1-1_all.deb
   sudo apt-get update
-  sudo apt-get install -y cuda-toolkit-13-0
-  rm -f "${cuda_deb}"
+  sudo apt-get -y install cuda-toolkit-13-0
+  rm -f cuda-keyring_1.1-1_all.deb
 
   # Install NVIDIA Container Toolkit
   install_nvidia_container_toolkit_debian
