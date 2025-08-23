@@ -75,7 +75,7 @@ install_nvidia_ubuntu() {
   wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-keyring_1.1-1_all.deb
   sudo dpkg -i cuda-keyring_1.1-1_all.deb
   sudo apt-get update
-  sudo apt-get -y install cuda-toolkit-13-0
+  sudo apt-get -y install cuda-toolkit-13-0 nvtop
   rm -f cuda-keyring_1.1-1_all.deb
 
   # Install NVIDIA Container Toolkit
@@ -404,7 +404,6 @@ main() {
 
   # Detect and install packages for the current distribution
   if [ -f /etc/os-release ]; then
-    # shellcheck source=/dev/null
     . /etc/os-release
     case "$ID" in
     "debian")
