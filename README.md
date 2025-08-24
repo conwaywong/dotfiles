@@ -11,8 +11,8 @@ mkdir $HOME/dev; \
 
 ## Post install steps
 
-Extend environment-specific settings by creating a `$HOME/.zshenv_ext` and
-adding to it.
+Extend environment-specific settings by creating `$HOME/.zshenv_ext` and adding
+variables to it. The file should automatically be loaded by $HOME/.zshenv.
 
 ## Create SSH Key
 
