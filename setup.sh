@@ -388,7 +388,7 @@ setup_wsl_config() {
 
   # Set BROWSER env variable (https://superuser.com/a/1266038)
   touch "$HOME/.zshenv_ext"
-  echo "export BROWSER='/mnt/c/Program Files/Firefox/firefox.exe'" >>"$HOME/.zshenv_ext"
+  echo "export BROWSER='/mnt/c/Windows/explorer.exe'" >>"$HOME/.zshenv_ext"
 }
 
 setup_npm() {
