@@ -334,7 +334,7 @@ setup_fonts() {
   log "Setting up fonts..."
 
   # Load user fonts
-  fc-cache -fv
+  # fc-cache -fv
 
   # Install Nerd Font symbols
   sudo wget -P /usr/share/fontconfig/conf.avail/ \
