@@ -36,3 +36,5 @@
     # ff = only      # fast-forward only
 [color]
     ui = auto
+[credential]
+	helper = store

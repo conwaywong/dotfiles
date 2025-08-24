@@ -39,7 +39,9 @@ nvidia_exists() {
 }
 
 is_wsl() {
-  [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
+  # Debian 13 has observed to create WSLInterop-late file, so check for glob
+  ls -d -- /proc/sys/fs/binfmt_misc/WSLInterop* >/dev/null 2>&1
+  return $?
 }
 
 command_exists() {
@@ -377,12 +379,15 @@ setup_wsl_config() {
   fi
 
   # Configure DNS
-  sudo unlink /etc/resolv.conf 2>/dev/null || true
-  echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-  sudo chattr +i /etc/resolv.conf
+  if [ -L /etc/resolv.conf ]; then
+    sudo unlink /etc/resolv.conf 2>/dev/null || true
+    echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+    sudo chattr +i /etc/resolv.conf
+  fi
 
   # Link Windows cmd.exe
   if [ ! -f "$HOME/.local/bin/cmd.exe" ]; then
+    mkdir -p "$HOME/.local/bin"
     ln -s /mnt/c/WINDOWS/system32/cmd.exe "$HOME/.local/bin/cmd.exe"
   fi
 
