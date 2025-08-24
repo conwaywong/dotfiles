@@ -12,7 +12,7 @@ set -euo pipefail # Exit on error, undefined vars, pipe failures
 
 readonly NVIDIA_TOOLKIT_VERSION="1.17.8-1"
 readonly NEOVIM_VERSION="v0.11.1"
-readonly FZF_VERSION="v0.64.0"
+readonly FZF_VERSION="v0.65.1"
 readonly NERD_FONTS_VERSION="v3.4.0"
 
 # =============================================================================
