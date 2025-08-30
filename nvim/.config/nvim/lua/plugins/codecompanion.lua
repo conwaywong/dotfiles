@@ -38,7 +38,7 @@ return {
           },
           schema = {
             model = {
-              default = "bedrock-claude-4-sonnet",
+              default = "anthropic-claude-v4-1-opus",
             },
           },
         })
