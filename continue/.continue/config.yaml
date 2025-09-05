@@ -1,0 +1,168 @@
+%YAML 1.1
+---
+name: SIF AI
+version: 0.0.1
+schema: v1
+model_defaults: &model_defaults
+  provider: openai
+  apiKey: ${{ secrets.SAIC_AI_API_KEY }} # Reads from .continue/.env file.  Line should read SAIC_AI_API_KEY=<KEY>
+  apiBase: "https://ai-api.sif.saicdevops.com/v1/" 
+models:
+  # - name: SAIC models
+  #   <<: *model_defaults
+  #   model: AUTODETECT
+  #   defaultCompletionOptions:
+  #     contextLength: 200000
+  #     maxTokens: 4096
+  #   roles:
+  #     - chat
+  #     - edit
+  #     - apply
+  #     - summarize
+  - name: Claude Opus 4.1
+    <<: *model_defaults
+    model: anthropic-claude-v4-1-opus
+    roles:
+      - chat
+      - edit
+      - apply
+      - summarize
+    defaultCompletionOptions:
+      contextLength: 200000
+      maxTokens: 32000
+    capabilities:
+      - tool_use
+      - image_input
+  - name: Claude 4 Sonnet
+    <<: *model_defaults
+    model: bedrock-claude-4-sonnet
+    roles:
+      - chat
+      - edit
+      - apply
+      - summarize
+    defaultCompletionOptions:
+      contextLength: 200000
+      maxTokens: 64000
+    capabilities:
+      - tool_use
+      - image_input
+  - name: DeepSeek R1
+    <<: *model_defaults
+    model: deepseek-r1-v1
+    roles:
+      - chat
+      - edit
+      - apply
+    defaultCompletionOptions:
+      contextLength: 128000
+      maxTokens: 4096
+  - name: Llama 3.3 70B Instruct
+    <<: *model_defaults
+    model: meta-llama3.3-70b-instruct-v1
+    roles:
+      - chat
+      - edit
+      - apply
+      - summarize
+    defaultCompletionOptions:
+      contextLength: 128000
+      maxTokens: 32768
+  - name: Llama v4 Maverick
+    <<: *model_defaults
+    model: meta-llama-v4-maverick-17b-instruct
+    roles:
+      - chat
+      - edit
+      - apply
+      - summarize
+    defaultCompletionOptions:
+      contextLength: 128000
+      maxTokens: 32768
+  - name: Cohere embed English v3
+    <<: *model_defaults
+    model: cohere-embed-english-v3
+    roles:
+      - embed
+  - name: Titan Embed Text V2
+    <<: *model_defaults
+    model: 'bedrock-titan-embed-text-v2'
+    defaultCompletionOptions:
+      contextLength: 200000
+      maxTokens: 4096
+    roles:
+      - embed
+  - name: Cohere Rerank 3.5
+    <<: *model_defaults
+    model: cohere-rerank-v3-5
+    roles:
+      - rerank
+context:
+  - provider: currentFile
+  - provider: open
+    params:
+      onlyPinned: true
+  - provider: code
+  - provider: codebase
+    params:
+      nFinal: 10
+  - provider: docs
+  - provider: diff
+  - provider: folder
+  - provider: terminal
+prompts:
+  - name: check
+    description: Check for mistakes in my code
+    prompt: |
+      Please read the highlighted code and check for any mistakes. You should look for the following, and be extremely vigilant:
+        - Syntax errors
+        - Logic errors
+        - Security vulnerabilities
+
+  - name: comment
+    description: Write comments for the selected code
+    prompt: |
+      Write comments for the selected code
+
+  - name: share
+    description: Export this session as markdown
+    prompt: |
+      Export this session as markdown
+
+  - name: test
+    description: Write unit tests for highlighted code
+    prompt: |
+      Please read the highlighted code and write comprehensive unit tests for the selected code, ensuring 100% coverage, isolated tests, and descriptive test names.
+      - Make your final output as concise as possible.
+      - Think step by step.
+
+  - name: refactor
+    description: Refactor my code.
+    prompt: |
+      Please read the highlighted code and refactor the selected code to improve maintainability, scalability, and efficiency.
+      - Apply software engineering best practices and principles.
+      - The end result must be readable and bug-free.
+      - Make your final output as concise as possible.
+      - Readability is my most important focus.
+      - Use constants to name results of steps so a developer can easily understand what the function does the first time they open the file.
+      - Think step by step.
+      - If you need more information for me, you will ask for it.
+
+  - name: review
+    description: Review my code.
+    prompt: |
+      Please read the highlighted code and provide a code review.
+        - Evaluate code quality, design, performance, correctness, and readability.
+        - Play the role of a senior developer.
+        - Make your final output concise.
+        - Think step by step.
+
+  - name: explain
+    description: Explain the code.
+    prompt: |
+      Please read the highlighted code and explain the code to me.
+      - I'm a software developer. Don't explain basic coding concepts to me, such as explaining null or empty checks or what parameters a function has
+      - Keep output brief. One to two points.
+      - Focus on explaining the main logic of what is happening.
+      - Break down any complicated functions into a summary of what they are doing and how.
+      - Make sure your final output is concise. Think step by step.
