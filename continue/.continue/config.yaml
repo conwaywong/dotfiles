@@ -6,7 +6,7 @@ schema: v1
 model_defaults: &model_defaults
   provider: openai
   apiKey: ${{ secrets.SAIC_AI_API_KEY }} # Reads from .continue/.env file.  Line should read SAIC_AI_API_KEY=<KEY>
-  apiBase: "https://ai-api.sif.saicdevops.com/v1/" 
+  apiBase: "https://ai-api.sif.saicdevops.com/v1/"
 models:
   # - name: SAIC models
   #   <<: *model_defaults
@@ -78,7 +78,7 @@ models:
       - summarize
     defaultCompletionOptions:
       contextLength: 128000
-      maxTokens: 32768
+      maxTokens: 8192
   - name: Cohere embed English v3
     <<: *model_defaults
     model: cohere-embed-english-v3
@@ -86,7 +86,7 @@ models:
       - embed
   - name: Titan Embed Text V2
     <<: *model_defaults
-    model: 'bedrock-titan-embed-text-v2'
+    model: "bedrock-titan-embed-text-v2"
     defaultCompletionOptions:
       contextLength: 200000
       maxTokens: 4096
