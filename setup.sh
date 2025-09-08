@@ -313,7 +313,7 @@ setup_shell_environment() {
   cd $HOME
 
   # create default venv
-  $HOME/.local/bin/uv venv --prompt base
+  #$HOME/.local/bin/uv venv --prompt base
 
   cd -
 }
@@ -335,7 +335,7 @@ setup_fonts() {
   log "Setting up fonts..."
 
   # Load user fonts
-  # fc-cache -fv
+  fc-cache -fv
 
   # Install Nerd Font symbols
   sudo wget -P /usr/share/fontconfig/conf.avail/ \
