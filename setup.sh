@@ -314,6 +314,8 @@ setup_shell_environment() {
 
   # create default venv
   $HOME/.local/bin/uv venv --prompt base
+
+  cd -
 }
 
 setup_dotfiles() {
