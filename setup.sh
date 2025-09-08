@@ -309,7 +309,8 @@ setup_shell_environment() {
   if [ "$SHELL" != "/bin/zsh" ]; then
     chsh -s /bin/zsh
   fi
-  zsh
+
+  cd $HOME
 
   # create default venv
   $HOME/.local/bin/uv venv --prompt base
