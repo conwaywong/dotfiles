@@ -35,7 +35,7 @@ error() {
 }
 
 nvidia_exists() {
-  ! [ -z "${NVIDIA_SKIP}" ] && [ -f "/mnt/c/Windows/System32/nvidia-smi.exe" ]
+  [ -z "${NVIDIA_SKIP}" ] && [ -f "/mnt/c/Windows/System32/nvidia-smi.exe" ]
 }
 
 is_wsl() {
