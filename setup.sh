@@ -239,13 +239,13 @@ install_neovim() {
   rm "${nvim_archive}"
 }
 
-install_miniconda() {
-  log "Installing Miniconda..."
+install_uv() {
+  log "Installing uv..."
 
-  local conda_installer="Miniconda3-latest-Linux-x86_64.sh"
-  wget "https://repo.anaconda.com/miniconda/${conda_installer}"
-  bash "${conda_installer}" -b -p "$HOME/.miniconda"
-  rm "${conda_installer}"
+  local uv_installer="install.sh"
+  wget "https://astral.sh/uv/install.sh"
+  bash "${uv_installer}"
+  rm "${uv_installer}"
 }
 
 install_chrome() {
@@ -305,21 +305,21 @@ setup_shell_environment() {
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
   fi
 
-  # Install conda completion
-  if [ ! -d "${ZDOTDIR:-$HOME}/.zprezto/contrib/conda-zsh-completion" ]; then
-    git clone https://github.com/conda-incubator/conda-zsh-completion.git \
-      "${ZDOTDIR:-$HOME}/.zprezto/contrib/conda-zsh-completion"
-  fi
-
   # Change default shell to zsh
   if [ "$SHELL" != "/bin/zsh" ]; then
     chsh -s /bin/zsh
   fi
+  zsh
+
+  cd "$HOME"
+
+  # create default venv
+  uv venv --prompt base
 }
 
 setup_dotfiles() {
   log "Setting up dotfiles..."
-  stow --no-folding -t "$HOME" conda fonts git nvim podman prettier tmux zsh
+  stow --no-folding -t "$HOME" fonts git nvim podman prettier tmux zsh
 }
 
 setup_tmux() {
@@ -437,7 +437,7 @@ main() {
 
   # Install applications
   install_neovim
-  install_miniconda
+  install_uv
   install_chrome
   install_fzf
   install_lazygit
