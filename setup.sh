@@ -244,7 +244,8 @@ install_uv() {
 
   local uv_installer="install.sh"
   wget "https://astral.sh/uv/install.sh"
-  bash "${uv_installer}"
+  # do not create a ~/.zshrc by setting UV_NO_MODIFY_PATH
+  UV_NO_MODIFY_PATH=True bash "${uv_installer}"
   rm "${uv_installer}"
 }
 
@@ -311,10 +312,8 @@ setup_shell_environment() {
   fi
 
   cd $HOME
-
   # create default venv
-  #$HOME/.local/bin/uv venv --prompt base
-
+  $HOME/.local/bin/uv venv --prompt base
   cd -
 }
 
