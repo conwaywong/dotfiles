@@ -311,10 +311,8 @@ setup_shell_environment() {
   fi
   zsh
 
-  cd "$HOME"
-
   # create default venv
-  uv venv --prompt base
+  $HOME/.local/bin/uv venv --prompt base
 }
 
 setup_dotfiles() {
