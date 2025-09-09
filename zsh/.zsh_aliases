@@ -27,7 +27,7 @@ alias ....='cd ../../../'
 alias .....='cd ../../../../'
 
 # update on one command 
-alias update='sudo apt --update -y upgrade'
+alias update='sudo apt update; sudo apt -y upgrade'
 
 # which history
 alias h='history | head -n -1 | grep'
