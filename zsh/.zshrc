@@ -18,11 +18,17 @@ export REGISTRY_AUTH_FILE=$HOME/.config/containers/auth.json
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-# Check if the current directory contains a .venv folder
-if [ -d "$HOME/.venv" ]; then
-    # If .venv exists in the current directory, activate it
-    source "$HOME/.venv/bin/activate"
+__conda_setup=$($HOME/.miniconda/bin/conda shell.zsh hook 2> /dev/null)
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/.miniconda/etc/profile.d/conda.sh" ]; then
+        . "$HOME/.miniconda/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/.miniconda/bin:$PATH"
+    fi
 fi
+unset __conda_setup
 
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
