@@ -9,6 +9,13 @@ mkdir $HOME/dev; \
   cd dotfiles && ./setup.sh
 ```
 
+To skip installation support of NVIDIA, set the environment variable
+`NVIDIA_SKIP`. For example,
+
+```bash
+NVIDIA_SKIP=true ./setup.sh
+```
+
 ## Post install steps
 
 Extend environment-specific settings by creating `$HOME/.zshenv_ext` and adding
