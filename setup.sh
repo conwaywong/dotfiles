@@ -4,7 +4,7 @@
 # This script installs and configures a complete development environment
 # for WSL2 or native Linux systems (Ubuntu/Debian/Fedora)
 
-set -euo pipefail # Exit on error, undefined vars, pipe failures
+set -eo pipefail # Exit on error, pipe failures
 
 # =============================================================================
 # Configuration Variables
