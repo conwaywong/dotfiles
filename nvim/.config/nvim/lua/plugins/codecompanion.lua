@@ -4,7 +4,7 @@ return {
     "j-hui/fidget.nvim",
     "nvim-lua/plenary.nvim",
     {
-      "echasnovski/mini.diff",
+      "nvim-mini/mini.diff",
       config = function()
         local diff = require("mini.diff")
         diff.setup({

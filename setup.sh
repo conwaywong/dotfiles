@@ -125,7 +125,7 @@ install_ubuntu_packages() {
   sudo apt-get install -y \
     bat btop build-essential fd-find ffmpeg \
     google-perftools jid jq meld npm perl python3-venv ripgrep \
-    silversearcher-ag stow tidy tldr tmux universal-ctags unzip \
+    silversearcher-ag stow tidy tldr tmux tree-sitter-cli universal-ctags unzip \
     wl-clipboard zip zsh
 
   # Remove unwanted packages
@@ -149,7 +149,7 @@ install_debian_packages() {
   sudo apt-get install -y \
     bat btop build-essential fd-find ffmpeg \
     google-perftools gpg jid jq meld npm perl pkexec polkitd python3-venv ripgrep \
-    silversearcher-ag stow tidy tldr-py tmux universal-ctags unzip \
+    silversearcher-ag stow tidy tldr-py tmux tree-sitter-cli universal-ctags unzip \
     wl-clipboard zip zsh
 
   install_docker_debian
@@ -211,7 +211,7 @@ install_fedora_packages() {
   sudo dnf install -y \
     bat btop ctags @development-tools fd-find ffmpeg google-perftools hostname \
     jq meld npm perl python3-virtualenv ripgrep \
-    the_silver_searcher stow tidy tldr tmux unzip \
+    the_silver_searcher stow tidy tldr tmux tree-sitter-cli unzip \
     wl-clipboard zip zsh
 
   install_docker_fedora
