@@ -70,7 +70,7 @@ install_docker_debian() {
   sudo curl -fsSL ${REPO_URL}/gpg -o /etc/apt/keyrings/docker.asc
   sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] ${REPO_URL} $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" |
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] ${REPO_URL} $(. /etc/os-release && echo "${DEBIAN_CODENAME:-${UBUNTU_CODENAME:-$VERSION_CODENAME}}") stable" |
     sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
   sudo apt-get update
@@ -261,7 +261,7 @@ install_uv() {
 install_chrome() {
   log "Installing Google Chrome..."
 
-  if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
+  if [[ "$ID" == "debian" || "$ID" == "ubuntu" || "$ID" == "linuxmint" ]]; then
     local chrome_deb="google-chrome-stable_current_amd64.deb"
     wget "https://dl.google.com/linux/direct/${chrome_deb}"
     sudo apt install -y "./${chrome_deb}"
@@ -423,6 +423,9 @@ main() {
     . /etc/os-release
     case "$ID" in
     "debian")
+      install_debian_packages
+      ;;
+    "linuxmint")
       install_debian_packages
       ;;
     "ubuntu")
