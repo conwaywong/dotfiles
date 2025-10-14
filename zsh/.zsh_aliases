@@ -1,3 +1,10 @@
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    DISTRO_ID="$ID"
+else
+    DISTRO_ID="unknown"
+fi
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -26,8 +33,12 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
 
-# update on one command 
-alias update='sudo apt update; sudo apt -y upgrade'
+# update packages in one command
+if [[ "$DISTRO_ID" == "debian" || "$DISTRO_ID" == "ubuntu" ]]; then
+  alias update='sudo apt update; sudo apt -y upgrade'
+elif [[ "$DISTRO_ID" == "fedora" ]]; then
+  alias update='sudo dnf -y upgrade --refresh'
+fi
 
 # which history
 alias h='history | head -n -1 | grep'
