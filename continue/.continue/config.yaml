@@ -29,13 +29,13 @@ models:
       - summarize
     defaultCompletionOptions:
       contextLength: 200000
-      maxTokens: 32000
+      maxTokens: 8192
     capabilities:
       - tool_use
       - image_input
-  - name: Claude 4 Sonnet
+  - name: Claude 4.5 Sonnet
     <<: *model_defaults
-    model: bedrock-claude-4-sonnet
+    model: bedrock-claude-4-5-sonnet
     roles:
       - chat
       - edit
@@ -43,7 +43,7 @@ models:
       - summarize
     defaultCompletionOptions:
       contextLength: 200000
-      maxTokens: 64000
+      maxTokens: 8192
     capabilities:
       - tool_use
       - image_input
