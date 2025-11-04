@@ -209,7 +209,7 @@ install_fedora_packages() {
 
   # Install essential development packages
   sudo dnf install -y \
-    bat btop ctags @development-tools e2fsprogs fd-find ffmpeg google-perftools hostname \
+    bat btop ctags @development-tools e2fsprogs fd-find ffmpeg gperftools hostname \
     jq meld npm perl python3-virtualenv ripgrep \
     the_silver_searcher stow tidy tldr tmux tree-sitter-cli unzip \
     wl-clipboard zip zsh
