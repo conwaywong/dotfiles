@@ -11,8 +11,8 @@ set -eo pipefail # Exit on error, pipe failures
 # =============================================================================
 
 readonly NVIDIA_TOOLKIT_VERSION="1.17.8-1"
-readonly NEOVIM_VERSION="v0.11.4"
-readonly FZF_VERSION="v0.65.2"
+readonly NEOVIM_VERSION="v0.11.6"
+readonly FZF_VERSION="v0.70.0"
 readonly NERD_FONTS_VERSION="v3.4.0"
 
 # =============================================================================
@@ -126,7 +126,7 @@ install_ubuntu_packages() {
     bat btop build-essential fd-find ffmpeg \
     google-perftools jid jq meld npm perl python3-venv ripgrep \
     silversearcher-ag stow tidy tldr tmux tree-sitter-cli universal-ctags unzip \
-    wl-clipboard zip zsh
+    wget wl-clipboard zip zsh
 
   # Remove unwanted packages
   sudo apt autoremove -y --purge apport cups snapd unattended-upgrades wsl-pro-service || true
@@ -150,7 +150,7 @@ install_debian_packages() {
     bat btop build-essential fd-find ffmpeg \
     google-perftools gpg jid jq meld npm perl pkexec polkitd python3-venv ripgrep \
     silversearcher-ag stow tidy tldr-py tmux tree-sitter-cli universal-ctags unzip \
-    wl-clipboard zip zsh
+    wget wl-clipboard zip zsh
 
   install_docker_debian
 
