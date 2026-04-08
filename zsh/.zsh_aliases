@@ -34,10 +34,14 @@ alias ....='cd ../../../'
 alias .....='cd ../../../../'
 
 # update packages in one command
-if [[ "$DISTRO_ID" == "debian" || "$DISTRO_ID" == "ubuntu" ]]; then
+if [[ "$DISTRO_ID" == "debian" || "$DISTRO_ID" == "ubuntu" || "$DISTRO_ID" == "linuxmint" ]]; then
   alias update='sudo apt update; sudo apt -y upgrade'
 elif [[ "$DISTRO_ID" == "fedora" ]]; then
   alias update='sudo dnf -y upgrade --refresh'
+elif [[ "$DISTRO_ID" == "arch" || "$DISTRO_ID" == "manjaro" ]]; then
+  alias update='sudo pacman -Syu --noconfirm'
+elif [[ "$DISTRO_ID" == "opensuse-tumbleweed" || "$DISTRO_ID" == "opensuse-leap" ]]; then
+  alias update='sudo zypper update -y'
 fi
 
 # which history

@@ -2,7 +2,7 @@
 
 # WSL/Linux Development Environment Setup Script
 # This script installs and configures a complete development environment
-# for WSL2 or native Linux systems (Ubuntu/Debian/Fedora)
+# for WSL2 or native Linux systems (Ubuntu/Debian/Fedora/Arch/openSUSE)
 
 set -eo pipefail # Exit on error, pipe failures
 
@@ -177,8 +177,12 @@ install_docker_fedora() {
 install_nvidia_fedora() {
   log "Installing NVIDIA CUDA toolkit for Fedora..."
 
+  # Detect Fedora version for the correct repo URL
+  local fedora_version
+  fedora_version=$(. /etc/os-release && echo "$VERSION_ID")
+
   # Install CUDA toolkit
-  sudo dnf -y config-manager addrepo --from-repofile https://developer.download.nvidia.com/compute/cuda/repos/fedora42/x86_64/cuda-fedora42.repo
+  sudo dnf -y config-manager addrepo --from-repofile "https://developer.download.nvidia.com/compute/cuda/repos/fedora${fedora_version}/x86_64/cuda-fedora${fedora_version}.repo"
   sudo dnf clean all
   sudo dnf -y install cuda-toolkit-13-0 nvtop
 
@@ -225,6 +229,112 @@ install_fedora_packages() {
   fi
 }
 
+install_docker_arch() {
+  log "Installing Docker for Arch Linux..."
+
+  sudo pacman -S --noconfirm --needed docker docker-buildx docker-compose
+
+  # Configure Docker group
+  sudo groupadd docker 2>/dev/null || true
+  sudo usermod -aG docker "$USER"
+  sudo systemctl enable docker
+  sudo systemctl start docker
+}
+
+install_nvidia_container_toolkit_arch() {
+  log "Installing NVIDIA Container Toolkit for Arch Linux..."
+
+  sudo pacman -S --noconfirm --needed nvidia-container-toolkit
+  sudo nvidia-ctk runtime configure --runtime=docker
+  sudo systemctl restart docker
+}
+
+install_nvidia_arch() {
+  log "Installing NVIDIA CUDA toolkit for Arch Linux..."
+
+  sudo pacman -S --noconfirm --needed cuda nvtop
+  install_nvidia_container_toolkit_arch
+}
+
+install_arch_packages() {
+  log "Installing packages for Arch Linux..."
+
+  sudo pacman -Syu --noconfirm
+
+  sudo pacman -S --noconfirm --needed \
+    bat btop base-devel ctags fd ffmpeg gperftools \
+    jq meld npm perl python ripgrep \
+    the_silver_searcher stow tidy tldr tmux unzip \
+    wget wl-clipboard zip zsh
+
+  install_docker_arch
+
+  if nvidia_exists; then
+    install_nvidia_arch
+  fi
+}
+
+install_docker_opensuse() {
+  log "Installing Docker for openSUSE..."
+
+  sudo zypper addrepo --refresh https://download.docker.com/linux/sles/docker-ce.repo || true
+  sudo zypper --gpg-auto-import-keys refresh
+  sudo zypper install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # Configure Docker group
+  sudo groupadd docker 2>/dev/null || true
+  sudo usermod -aG docker "$USER"
+  sudo systemctl enable docker
+  sudo systemctl start docker
+}
+
+install_nvidia_container_toolkit_opensuse() {
+  log "Installing NVIDIA Container Toolkit for openSUSE..."
+
+  curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo |
+    sudo tee /etc/zypp/repos.d/nvidia-container-toolkit.repo
+
+  sudo zypper --gpg-auto-import-keys refresh
+  sudo zypper install -y \
+    "nvidia-container-toolkit-${NVIDIA_TOOLKIT_VERSION}" \
+    "nvidia-container-toolkit-base-${NVIDIA_TOOLKIT_VERSION}" \
+    "libnvidia-container-tools-${NVIDIA_TOOLKIT_VERSION}" \
+    "libnvidia-container1-${NVIDIA_TOOLKIT_VERSION}"
+
+  sudo nvidia-ctk runtime configure --runtime=docker
+  sudo systemctl restart docker
+}
+
+install_nvidia_opensuse() {
+  log "Installing NVIDIA CUDA toolkit for openSUSE..."
+
+  sudo zypper addrepo --refresh \
+    https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
+  sudo zypper --gpg-auto-import-keys refresh
+  sudo zypper install -y cuda-toolkit-13-0 nvtop
+
+  install_nvidia_container_toolkit_opensuse
+}
+
+install_opensuse_packages() {
+  log "Installing packages for openSUSE..."
+
+  sudo zypper refresh
+  sudo zypper update -y
+
+  sudo zypper install -y \
+    bat btop gcc gcc-c++ make ctags fd ffmpeg gperftools \
+    jq meld npm perl python3 python3-virtualenv ripgrep \
+    the_silver_searcher stow tidy tldr tmux unzip \
+    wget wl-clipboard zip zsh
+
+  install_docker_opensuse
+
+  if nvidia_exists; then
+    install_nvidia_opensuse
+  fi
+}
+
 # =============================================================================
 # Application Installation Functions
 # =============================================================================
@@ -261,11 +371,19 @@ install_uv() {
 install_chrome() {
   log "Installing Google Chrome..."
 
-  if [[ "$ID" == "debian" || "$ID" == "ubuntu" || "$ID" == "linuxmint" ]]; then
+  if [[ "$ID" == "debian" || "$ID" == "ubuntu" || "$ID" == "linuxmint" || "$ID_LIKE" == *"debian"* || "$ID_LIKE" == *"ubuntu"* ]]; then
     local chrome_deb="google-chrome-stable_current_amd64.deb"
     wget "https://dl.google.com/linux/direct/${chrome_deb}"
     sudo apt install -y "./${chrome_deb}"
     rm "${chrome_deb}"
+  elif [[ "$ID" == "arch" || "$ID" == "manjaro" || "$ID_LIKE" == *"arch"* ]]; then
+    log "Google Chrome is not in the official Arch repositories."
+    log "Install manually with an AUR helper: yay -S google-chrome"
+  elif [[ "$ID" == "opensuse-tumbleweed" || "$ID" == "opensuse-leap" || "$ID_LIKE" == *"opensuse"* || "$ID_LIKE" == *"suse"* ]]; then
+    local chrome_rpm="google-chrome-stable_current_x86_64.rpm"
+    wget "https://dl.google.com/linux/direct/${chrome_rpm}"
+    sudo zypper install -y "./${chrome_rpm}"
+    rm "${chrome_rpm}"
   else
     local chrome_rpm="google-chrome-stable_current_x86_64.rpm"
     wget "https://dl.google.com/linux/direct/${chrome_rpm}"
@@ -434,8 +552,32 @@ main() {
     "fedora")
       install_fedora_packages
       ;;
+    "arch")
+      install_arch_packages
+      ;;
+    "manjaro")
+      install_arch_packages
+      ;;
+    "opensuse-tumbleweed" | "opensuse-leap" | "opensuse-microos")
+      install_opensuse_packages
+      ;;
     *)
-      error "Distribution $ID not supported. Supported: debian, ubuntu, fedora"
+      # Fallback: use ID_LIKE to detect the distribution family
+      if [[ "$ID_LIKE" == *"ubuntu"* || "$ID_LIKE" == *"debian"* ]]; then
+        log "Detected Debian/Ubuntu-based distribution ($ID), installing compatible packages..."
+        install_debian_packages
+      elif [[ "$ID_LIKE" == *"fedora"* || "$ID_LIKE" == *"rhel"* ]]; then
+        log "Detected Fedora/RHEL-based distribution ($ID), installing compatible packages..."
+        install_fedora_packages
+      elif [[ "$ID_LIKE" == *"arch"* ]]; then
+        log "Detected Arch-based distribution ($ID), installing compatible packages..."
+        install_arch_packages
+      elif [[ "$ID_LIKE" == *"opensuse"* || "$ID_LIKE" == *"suse"* ]]; then
+        log "Detected openSUSE-based distribution ($ID), installing compatible packages..."
+        install_opensuse_packages
+      else
+        error "Distribution $ID not supported. Supported: debian, ubuntu, fedora, arch, opensuse-tumbleweed, opensuse-leap and their derivatives"
+      fi
       ;;
     esac
   else
