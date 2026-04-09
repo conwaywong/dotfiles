@@ -28,8 +28,16 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
 
-# update on one command
-alias update='sudo apt update && sudo apt upgrade -y'
+# update on one command (distro-aware)
+if command -v apt-get &>/dev/null; then
+    alias update='sudo apt update && sudo apt upgrade -y'
+elif command -v dnf &>/dev/null; then
+    alias update='sudo dnf update -y'
+elif command -v pacman &>/dev/null; then
+    alias update='sudo pacman -Syu'
+elif command -v zypper &>/dev/null; then
+    alias update='sudo zypper update -y'
+fi
 
 # which history
 alias h='history | head -n -1 | grep'
@@ -51,5 +59,5 @@ alias p4='pushd +4 > /dev/null'
 
 if command -v bat &> /dev/null ; then alias cat='bat'; fi
 if command -v batcat &> /dev/null ; then alias cat='batcat'; fi
-if command -v bashtop &> /dev/null ; then alias top='bashtop'; fi
+if command -v btop &> /dev/null ; then alias top='btop'; fi
 if command -v fdfind &> /dev/null ; then alias fd='fdfind'; fi

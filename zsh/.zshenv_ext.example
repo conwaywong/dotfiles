@@ -1,0 +1,28 @@
+# .zshenv_ext — machine-specific environment variables
+#
+# This file is sourced by .zshenv but is NOT tracked in the dotfiles repo.
+# Copy this file to ~/.zshenv_ext and customize for the local machine.
+#
+#   cp ~/.zshenv_ext.example ~/.zshenv_ext
+#
+# Use this file for anything that varies per machine:
+#   - Paths specific to a local tool installation
+#   - Work-specific API keys or tokens
+#   - Overrides to defaults set in .zshenv (e.g. JAVA_HOME, BROWSER)
+#   - Proxy settings
+#   - SSH agent configuration
+
+# Example: override Java installation path
+# export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+
+# Example: work-specific tokens (never commit these)
+# export GITHUB_TOKEN=ghp_...
+# export ANTHROPIC_API_KEY=sk-ant-...
+
+# Example: internal proxy
+# export http_proxy=http://proxy.corp.example.com:8080
+# export https_proxy=$http_proxy
+# export no_proxy=localhost,127.0.0.1,.corp.example.com
+
+# Example: extra PATH entries for locally installed tools
+# export PATH="$HOME/bin:$PATH"
