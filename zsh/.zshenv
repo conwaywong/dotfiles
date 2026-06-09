@@ -4,9 +4,9 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 export PATH="$HOME/.local/bin:$JAVA_HOME/bin:/opt/maven/current/bin:$PATH"
 
 # See https://github.com/sbt/sbt/issues/8154#issuecomment-3012557515
-if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+if ls -d -- /proc/sys/fs/binfmt_misc/WSLInterop* >/dev/null 2>&1; then
   export XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
-  export BROWSER=wslview
+  export BROWSER='/mnt/c/Windows/explorer.exe'
 fi
 
 # Add additional environment vars

@@ -158,7 +158,7 @@ When running under WSL2, the script additionally:
   `PATH` pollution
 - Disables auto-generated `/etc/resolv.conf` and sets DNS to `8.8.8.8`
 - Links `cmd.exe` to `~/.local/bin/cmd.exe`
-- Sets `BROWSER` to `wslview` for opening URLs in the Windows default browser
+- Sets `BROWSER` to `/mnt/c/Windows/explorer.exe` for opening URLs in the Windows default browser
 - Sets `XDG_RUNTIME_DIR` to `/mnt/wslg/runtime-dir`
 
 ## Post-Install Steps

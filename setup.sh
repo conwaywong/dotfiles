@@ -216,7 +216,7 @@ install_fedora_packages() {
     bat btop ctags @development-tools e2fsprogs fd-find ffmpeg gperftools hostname \
     jq meld npm perl python3-virtualenv ripgrep \
     the_silver_searcher stow tidy tldr tmux tree-sitter-cli unzip \
-    wl-clipboard zip zsh
+    wget wl-clipboard zip zsh
 
   install_docker_fedora
 
@@ -342,9 +342,10 @@ install_opensuse_packages() {
 install_neovim() {
   log "Installing Neovim ${NEOVIM_VERSION}..."
 
-  local nvim_archive="nvim-linux-x86_64.tar.gz"
+  local nvim_dir="nvim-linux-x86_64"
+  local nvim_archive="${nvim_dir}.tar.gz"
   wget "https://github.com/neovim/neovim/releases/download/${NEOVIM_VERSION}/${nvim_archive}"
-  sudo rm -rf /opt/nvim
+  sudo rm -rf "/opt/${nvim_dir}"
   sudo tar -C /opt -xzf "${nvim_archive}"
   rm "${nvim_archive}"
 }
@@ -440,8 +441,10 @@ setup_shell_environment() {
   fi
 
   # Change default shell to zsh
-  if [ "$SHELL" != "/bin/zsh" ]; then
-    chsh -s /bin/zsh
+  local zsh_path
+  zsh_path="$(command -v zsh || true)"
+  if [ -n "$zsh_path" ] && [ "$SHELL" != "$zsh_path" ]; then
+    chsh -s "$zsh_path" || log "Could not change shell to zsh automatically; run 'chsh -s $zsh_path' manually"
   fi
 }
 
@@ -518,10 +521,6 @@ setup_wsl_config() {
     mkdir -p "$HOME/.local/bin"
     ln -s /mnt/c/WINDOWS/system32/cmd.exe "$HOME/.local/bin/cmd.exe"
   fi
-
-  # Set BROWSER env variable (https://superuser.com/a/1266038)
-  touch "$HOME/.zshenv_ext"
-  echo "export BROWSER='/mnt/c/Windows/explorer.exe'" >>"$HOME/.zshenv_ext"
 }
 
 setup_npm() {
