@@ -124,8 +124,8 @@ install_ubuntu_packages() {
   # Install essential development packages
   sudo apt-get install -y \
     bat btop build-essential fd-find ffmpeg \
-    google-perftools jid jq meld npm perl python3-venv ripgrep \
-    silversearcher-ag stow tidy tldr tmux tree-sitter-cli universal-ctags unzip \
+    jid jq libgoogle-perftools-dev meld npm perl python3-venv ripgrep \
+    silversearcher-ag stow tidy tldr-py tmux tree-sitter-cli universal-ctags unzip \
     wget wl-clipboard zip zsh
 
   # Remove unwanted packages
