@@ -1,0 +1,50 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "labels": ["dependencies"],
+  "schedule": ["before 9am on Monday"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^setup\\.sh$/"],
+      "matchStrings": ["readonly NEOVIM_VERSION=\\\"(?<currentValue>[^\\\"]+)\\\""],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "neovim/neovim"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^setup\\.sh$/"],
+      "matchStrings": ["readonly FZF_VERSION=\\\"(?<currentValue>[^\\\"]+)\\\""],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "junegunn/fzf"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^setup\\.sh$/"],
+      "matchStrings": ["readonly NERD_FONTS_VERSION=\\\"(?<currentValue>[^\\\"]+)\\\""],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "ryanoasis/nerd-fonts"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^setup\\.sh$/"],
+      "matchStrings": ["readonly LAZYGIT_VERSION=\\\"(?<currentValue>[^\\\"]+)\\\""],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "jesseduffield/lazygit"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^setup\\.sh$/"],
+      "matchStrings": ["readonly ZOXIDE_VERSION=\\\"(?<currentValue>[^\\\"]+)\\\""],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "ajeetdsouza/zoxide"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^setup\\.sh$/"],
+      "matchStrings": ["readonly UV_VERSION=\\\"(?<currentValue>[^\\\"]+)\\\""],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "astral-sh/uv"
+    }
+  ]
+}

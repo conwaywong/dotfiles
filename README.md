@@ -27,11 +27,18 @@ mkdir -p $HOME/dev && \
 
 ### Options
 
-Skip NVIDIA/CUDA installation:
+Run `./setup.sh --help` for all options. Common safe modes:
 
 ```bash
-NVIDIA_SKIP=true ./setup.sh
+# Preview choices without changing the system
+./setup.sh --dry-run
+
+# Avoid broad or optional system changes
+./setup.sh --no-system-upgrade --no-docker --no-chrome --no-nvidia
 ```
+
+Package removal and fixed WSL DNS are opt-in via `--remove-unwanted` and
+`--configure-wsl-dns`.
 
 ## What Gets Installed
 
@@ -62,11 +69,11 @@ Downloaded and installed from upstream releases:
 
 | Application | Version | Notes |
 |---|---|---|
-| Neovim | v0.11.6 | Installed to `/opt/nvim-linux-x86_64/` |
-| Miniconda | latest | Installed to `~/.miniconda/` |
-| uv | latest | Python package manager |
-| fzf | v0.70.0 | Installed to `~/.local/bin/` |
-| Lazygit | latest | Installed to `~/.local/bin/` |
+| Neovim | v0.12.5 | Installed to `/opt/nvim/` |
+| Miniconda | py313_26.7.1-1 | Installed to `~/.miniconda/` |
+| uv | 0.12.8 | Python package manager |
+| fzf | v0.74.3 | Installed to `~/.local/bin/` |
+| Lazygit | v0.64.1 | Installed to `~/.local/bin/` |
 | Google Chrome | stable | Skipped on Arch (install via AUR: `yay -S google-chrome`) |
 
 ### Docker
@@ -79,11 +86,11 @@ Docker CE is installed on all distros including `docker-buildx-plugin` and
 Detected automatically by the presence of
 `/mnt/c/Windows/System32/nvidia-smi.exe`. Installs:
 
-- `cuda-toolkit-13-0`
+- `cuda-toolkit-13` (latest CUDA 13.x available for the distribution)
 - `nvtop`
 - NVIDIA Container Toolkit (configured for Docker)
 
-Set `NVIDIA_SKIP=true` to skip.
+Use `--no-nvidia` (or `NVIDIA_SKIP=true`) to skip.
 
 ## Shell Configuration
 
@@ -119,14 +126,14 @@ Set `NVIDIA_SKIP=true` to skip.
 
 ### PATH
 
-`~/.local/bin`, `/opt/nvim-linux-x86_64/bin`, and Java/Maven paths
+`~/.local/bin`, `/opt/nvim/bin`, and Java/Maven paths
 (`/opt/java/jdk-current/bin`, `/opt/maven/current/bin`) are added via
 `~/.zshenv`.
 
 ## Tmux Configuration
 
 - **Prefix:** `Ctrl+S`
-- **Theme:** [Catppuccin](https://github.com/catppuccin/tmux) v2.1.3
+- **Theme:** [Catppuccin](https://github.com/catppuccin/tmux) v2.3.0
 - **Plugins:** `vim-tmux-navigator`, `tpm`
 - **Status bar:** top-positioned, shows current application name
 - **Mouse:** enabled
@@ -136,7 +143,7 @@ Set `NVIDIA_SKIP=true` to skip.
 ## Git Configuration
 
 - **Diff/merge tool:** Meld (3-way merge)
-- **Credentials:** stored locally
+- **Credentials:** cached in memory for 12 hours (not written to disk)
 - **Auto-prune:** remote branches pruned on fetch
 
 Aliases:
@@ -156,7 +163,8 @@ When running under WSL2, the script additionally:
 
 - Sets `appendWindowsPath = false` in `/etc/wsl.conf` to prevent Windows
   `PATH` pollution
-- Disables auto-generated `/etc/resolv.conf` and sets DNS to `8.8.8.8`
+- Optionally disables auto-generated `/etc/resolv.conf` and sets DNS to `8.8.8.8`
+  when `--configure-wsl-dns` is supplied
 - Links `cmd.exe` to `~/.local/bin/cmd.exe`
 - Sets `BROWSER` to `/mnt/c/Windows/explorer.exe` for opening URLs in the Windows default browser
 - Sets `XDG_RUNTIME_DIR` to `/mnt/wslg/runtime-dir`
@@ -196,5 +204,22 @@ dotfiles/
 ├── tmux/        Tmux configuration (.tmux.conf)
 ├── vim/         Vim configuration (.vimrc)
 ├── zsh/         Zsh configuration (.zshrc, .zshenv, .zpreztorc, .zsh_aliases, .p10k.zsh)
+├── scripts/     Release/checksum validation utilities
 └── setup.sh     Main install and configuration script
 ```
+
+
+## Development and Validation
+
+GitHub Actions runs Bash, Zsh, tmux, ShellCheck, dry-run, and pinned-release
+validation. Run the portable checks locally with:
+
+```bash
+bash -n setup.sh
+git diff --check
+./setup.sh --dry-run
+python3 scripts/check-releases.py
+```
+
+Downloaded release archives are pinned and SHA-256 verified. Renovate monitors
+pinned GitHub releases; Dependabot monitors GitHub Actions.

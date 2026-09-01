@@ -1,1 +1,20 @@
+# Machine-local shell configuration and secrets
 .zshenv_ext
+.continue/.env
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Editor and OS state
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Python build artifacts
+__pycache__/
+*.py[cod]
